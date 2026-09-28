@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="睡眠科普 — 深度解析睡眠机制、睡眠障碍、改善方法。专业博客式内容，助您了解科学睡眠。">
+  <title>睡眠科普 — 眠境·养生</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/css/design-system.css">
+  <style>
+    /* ===== Hero ===== */
+    .page-hero {
+      padding: calc(var(--nav-h) + 6rem) 0 4rem;
+      background: linear-gradient(165deg, #F6F3EC 0%, #EDE8DE 50%, #F0EDE8 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(155,175,155,0.06) 0%, transparent 70%);
+      top: -300px; left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    /* ===== Section ===== */
+    .section { padding: var(--space-xl) 0; }
+
+    /* ===== Category Filter ===== */
+    .category-filter {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: var(--space-xl);
+    }
+    .cat-btn {
+      padding: 0.55rem 1.4rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.84rem;
+      font-weight: 500;
+      border: 1.5px solid var(--clr-sand);
+      color: var(--clr-text-secondary);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      background: white;
+      letter-spacing: 0.02em;
+    }
+    .cat-btn.active,
+    .cat-btn:hover {
+      border-color: var(--clr-sage-deep);
+      background: var(--clr-sage-deep);
+      color: white;
+    }
+
+    /* ===== Featured Post ===== */
+    .featured-post {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(44,59,53,0.05);
+      margin-bottom: var(--space-xl);
+      cursor: pointer;
+      transition: box-shadow 0.35s ease, transform 0.35s ease;
+    }
+    .featured-post:hover {
+      box-shadow: 0 12px 40px rgba(44,59,53,0.10);
+      transform: translateY(-2px);
+    }
+    .featured-img {
+      min-height: 340px;
+      background: linear-gradient(135deg, #0F1A2B, #1E2E45, #16243A);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .featured-img::before {
+      content: '';
+      position: absolute;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #FFF8E0, #E8D190);
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 50px rgba(232,209,144,0.35);
+    }
+    .featured-img .fi-icon { font-size: 4rem; position: relative; z-index: 1; filter: drop-shadow(0 6px 16px rgba(0,0,0,0.35)); }
+    .featured-body {
+      padding: 2.5rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .featured-body .fi-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--clr-sage-deep);
+      margin-bottom: 0.75rem;
+    }
+    .featured-body h2 {
+      font-family: var(--font-display);
+      font-size: 1.7rem;
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--clr-text-primary);
+      margin-bottom: 0.75rem;
+    }
+    .featured-body p {
+      font-size: 0.9rem;
+      color: var(--clr-text-secondary);
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+    }
+    .featured-body .fi-meta {
+      font-size: 0.78rem;
+      color: var(--clr-text-muted);
+    }
+
+    /* ===== Article Grid ===== */
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.75rem;
+      margin-bottom: var(--space-xl);
+    }
+
+    .article-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 1px 10px rgba(44,59,53,0.04);
+      cursor: pointer;
+      transition: box-shadow 0.35s ease, transform 0.35s ease;
+    }
+    .article-card:hover {
+      box-shadow: 0 10px 36px rgba(44,59,53,0.10);
+      transform: translateY(-3px);
+    }
+
+    .ac-thumb {
+      height: 160px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .ac-thumb .ac-icon { font-size: 2.4rem; position: relative; z-index: 1; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3)); }
+    .ac-thumb .ac-label {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      z-index: 2;
+    }
+
+    .ac-body { padding: 1.25rem 1.5rem 1.5rem; }
+    .ac-meta {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 0.72rem;
+      color: var(--clr-text-muted);
+      margin-bottom: 0.6rem;
+    }
+    .ac-title {
+      font-weight: 650;
+      font-size: 1rem;
+      line-height: 1.45;
+      color: var(--clr-text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .ac-excerpt {
+      font-size: 0.82rem;
+      color: var(--clr-text-secondary);
+      line-height: 1.7;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .ac-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--clr-sand);
+    }
+    .ac-footer .ac-source {
+      font-size: 0.68rem;
+      color: var(--clr-sage-deep);
+      background: rgba(155,175,155,0.08);
+      border-radius: 999px;
+      padding: 0.2rem 0.7rem;
+      font-weight: 600;
+    }
+    .ac-footer .ac-read { font-size: 0.75rem; color: var(--clr-text-muted); font-weight: 500; }
+
+    /* ===== Deep Dive Mini Grid ===== */
+    .depth-section { margin-bottom: var(--space-xl); }
+    .depth-section h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--clr-text-primary);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid var(--clr-sand);
+    }
+    .mini-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+    .mini-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 1px 8px rgba(44,59,53,0.03);
+      cursor: pointer;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .mini-card:hover {
+      box-shadow: 0 8px 28px rgba(44,59,53,0.08);
+      transform: translateY(-2px);
+    }
+    .mini-thumb {
+      height: 110px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mini-thumb .mini-icon { font-size: 1.8rem; position: relative; z-index: 1; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.25)); }
+    .mini-thumb .mini-label {
+      position: absolute;
+      top: 0.6rem;
+      left: 0.6rem;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      z-index: 2;
+    }
+    .mini-body { padding: 0.9rem 1rem 1rem; }
+    .mini-title { font-weight: 600; font-size: 0.84rem; line-height: 1.4; color: var(--clr-text-primary); margin-bottom: 0.3rem; }
+    .mini-excerpt { font-size: 0.74rem; color: var(--clr-text-secondary); line-height: 1.55; }
+
+    /* ===== Thumbnail Backgrounds ===== */
+    .bg-moon { background: linear-gradient(135deg, #0F1A2B, #1E2E45, #16243A); }
+    .bg-brain { background: linear-gradient(135deg, #1A1040, #2D1B6B, #4A2B8A); }
+    .bg-phone { background: linear-gradient(135deg, #1C2D3A, #2A3F50, #162330); }
+    .bg-tcm { background: linear-gradient(135deg, #1A2E20, #2A4030, #1E3528); }
+    .bg-anxiety { background: linear-gradient(135deg, #2A1A2E, #3D2050, #2E1840); }
+    .bg-bath { background: linear-gradient(135deg, #1A2830, #253848, #1C3040); }
+    .bg-baby { background: linear-gradient(135deg, #2A2040, #352860, #2A2050); }
+
+    /* ===== Knowledge Source Banner ===== */
+    .source-banner {
+      background: linear-gradient(135deg, #F5F8F5, #EDF2ED);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: var(--space-xl);
+    }
+    .source-banner .sb-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    .source-banner .sb-text {
+      flex: 1;
+      min-width: 200px;
+    }
+    .source-banner .sb-text strong { display: block; color: var(--clr-text-primary); margin-bottom: 0.25rem; }
+    .source-banner .sb-text span { font-size: 0.82rem; color: var(--clr-text-secondary); line-height: 1.6; }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1024px) {
+      .article-grid { grid-template-columns: 1fr; }
+      .mini-grid { grid-template-columns: repeat(2, 1fr); }
+      .featured-post { grid-template-columns: 1fr; }
+      .featured-img { min-height: 220px; }
+      .featured-body { padding: 1.5rem; }
+    }
+    @media (max-width: 640px) {
+      .mini-grid { grid-template-columns: 1fr; }
+      .page-hero { padding: calc(var(--nav-h) + 3rem) 0 2rem; }
+    }
+  </style>
+  <script>window.BAIDU_TONGJI_ID='${BAIDU_CODE}';</script>
+  <script>window.GA4_MEASUREMENT_ID='${GA4_ID}';</script>
+  <script src="../shared/js/analytics.js"></script>
+  <!-- OG / Twitter (added by content-optimization) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SleepWell Studio">
+  <meta property="og:title" content="睡眠科普 — 眠境·养生">
+  <meta property="og:description" content="Evidence-based sleep science, sound library, wellness diet and curated shop by SleepWell Studio.">
+  <meta property="og:image" content="images/img-circadian.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="睡眠科普 — 眠境·养生">
+  <meta name="twitter:description" content="Evidence-based sleep science, sound library, wellness diet and curated shop by SleepWell Studio.">
+  </head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="logo-main">眠境·养生</span><span class="logo-sub">Sleep & Wellness</span></a>
+    <div class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="science.html" class="active">睡眠科普</a>
+      <a href="music.html">助眠音馆</a>
+      <a href="food.html">养生食养</a>
+      <a href="shop.html">好物商城</a>
+      <a href="ai-assistant.html" class="nav-ai">AI科普助手</a>
+      <a href="about.html">关于我们</a>
+    </div>
+    <div class="nav-actions">
+      <a href="https://lianglinyuan666-ai.github.io/sleep-wellness-global/" class="nav-lang-switch">English</a>
+      <div class="nav-burger" id="navBurger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="sleep-calculator.html">⏰ 睡眠计算器</a>
+  <a href="index.html">首页</a><a href="sleep-calculator.html">睡眠计算器</a><a href="science.html">睡眠科普</a><a href="music.html">助眠音馆</a>
+  <a href="food.html">养生食养</a><a href="shop.html">好物商城</a><a href="ai-assistant.html">AI科普助手</a><a href="about.html">关于我们</a>
+</div>
+
+<!-- Hero -->
+<div class="page-hero">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="label-tag animate-fade-up">科普专栏</div>
+    <h1 class="heading-display animate-fade-up" style="margin-top:0.75rem;">睡眠科普</h1>
+    <p style="font-size:1rem;color:var(--clr-text-secondary);max-width:480px;margin:1rem auto 0;line-height:1.8;" class="animate-fade-up">
+      用循证研究解读睡眠，用传统智慧启发生活。
+    </p>
+  </div>
+</div>
+
+<section class="section" style="padding-top:0;">
+  <div class="container" style="max-width:1060px;">
+
+    <!-- Category Filter -->
+    <div class="category-filter reveal">
+      <button class="cat-btn active" onclick="filterCat(this,'all')">全部</button>
+      <button class="cat-btn" onclick="filterCat(this,'science')">睡眠科学</button>
+      <button class="cat-btn" onclick="filterCat(this,'habit')">睡眠习惯</button>
+      <button class="cat-btn" onclick="filterCat(this,'tcm')">中式养生</button>
+      <button class="cat-btn" onclick="filterCat(this,'disorder')">睡眠问题</button>
+      <button class="cat-btn" onclick="filterCat(this,'child')">婴幼儿睡眠</button>
+    </div>
+
+    <!-- Featured Post -->
+    <div class="featured-post reveal" onclick="location.href='article.html?id=sleep-cycles'">
+      <div class="featured-img bg-moon">
+        <span class="fi-icon">🌙</span>
+      </div>
+      <div class="featured-body">
+        <div class="fi-eyebrow">Featured · 睡眠科学</div>
+        <h2>你真的了解自己的睡眠周期吗？</h2>
+        <p>每个睡眠周期约90分钟，从浅睡、深睡到REM快速眼动，身体与大脑在这一循环中完成修复与记忆整合。</p>
+        <div class="fi-meta">2026·05·28 · 10 分钟阅读 · 来自「好睡眠」知识库</div>
+      </div>
+    </div>
+
+    <!-- Article Grid -->
+    <div class="article-grid" id="articleGrid">
+
+      <div class="article-card reveal" data-cat="science" onclick="location.href='article.html?id=melatonin'" style="cursor:pointer">
+        <div class="ac-thumb bg-brain">
+          <span class="ac-icon">🧠</span>
+          <span class="ac-label">睡眠科学</span>
+        </div>
+        <div class="ac-body">
+          <div class="ac-meta"><span>2026·05·25</span><span>8 分钟</span></div>
+          <div class="ac-title">褪黑素：身体天然的睡眠信号，你用对了吗？</div>
+          <div class="ac-excerpt">褪黑素不是安眠药，而是大脑松果体分泌的"夜晚信号"。蓝光会直接抑制这一过程，延迟分泌峰值达2-3小时。外源性补充仅适合时差调整。</div>
+          <div class="ac-footer"><span class="ac-source">来自「好睡眠」知识库</span><span class="ac-read">阅读全文 →</span></div>
+        </div>
+      </div>
+
+      <div class="article-card reveal" data-cat="habit" onclick="location.href='article.html?id=90min-rule'" style="cursor:pointer">
+        <div class="ac-thumb bg-phone">
+          <span class="ac-icon">📵</span>
+          <span class="ac-label">睡眠习惯</span>
+        </div>
+        <div class="ac-body">
+          <div class="ac-meta"><span>2026·05·22</span><span>6 分钟</span></div>
+          <div class="ac-title">睡前1小时关机仪式：为你的大脑创造"下班信号"</div>
+          <div class="ac-excerpt">蓝光不只抑制褪黑素，更会让大脑皮层持续处于"待命"状态。神经科学建议：睡前1小时调暗室内灯光，让神经系统从"高速公路"切换到"乡间小路"。</div>
+          <div class="ac-footer"><span class="ac-source">哈佛医学院研究·2023</span><span class="ac-read">阅读全文 →</span></div>
+        </div>
+      </div>
+
+      <div class="article-card reveal" data-cat="tcm" onclick="location.href='article.html?id=circadian'" style="cursor:pointer">
+        <div class="ac-thumb bg-tcm">
+          <span class="ac-icon">🫖</span>
+          <span class="ac-label">中式养生</span>
+        </div>
+        <div class="ac-body">
+          <div class="ac-meta"><span>2026·05·18</span><span>7 分钟</span></div>
+          <div class="ac-title">《黄帝内经》中的睡眠智慧：卫气循行与昼夜节律</div>
+          <div class="ac-excerpt">"阳入于阴则寐，阴出于阳则寤。"中医以"卫气"理论解释睡眠，与现代昼夜节律高度吻合。心藏神、肝调情志——失眠多从这两脏论治。</div>
+          <div class="ac-footer"><span class="ac-source">来自「睡眠呼吸冥想养生」知识库</span><span class="ac-read">阅读全文 →</span></div>
+        </div>
+      </div>
+
+      <div class="article-card reveal" data-cat="disorder" onclick="location.href='article.html?id=cbti'" style="cursor:pointer">
+        <div class="ac-thumb bg-anxiety">
+          <span class="ac-icon">😰</span>
+          <span class="ac-label">睡眠问题</span>
+        </div>
+        <div class="ac-body">
+          <div class="ac-meta"><span>2026·05·15</span><span>9 分钟</span></div>
+          <div class="ac-title">睡眠焦虑：越想睡越睡不着，认知行为疗法怎么说？</div>
+          <div class="ac-excerpt">失眠焦虑是典型的"努力悖论"——越努力入睡，警觉系统越激活。CBT-I是循证级别最高的非药物疗法，通过刺激控制、睡眠限制和认知重构打破恶性循环。</div>
+          <div class="ac-footer"><span class="ac-source">来自「正念认知睡眠」知识库</span><span class="ac-read">阅读全文 →</span></div>
+        </div>
+      </div>
+
+      <div class="article-card reveal" data-cat="habit" onclick="location.href='article.html?id=hot-bath'" style="cursor:pointer">
+        <div class="ac-thumb bg-bath">
+          <span class="ac-icon">🛁</span>
+          <span class="ac-label">睡眠习惯</span>
+        </div>
+        <div class="ac-body">
+          <div class="ac-meta"><span>2026·05·10</span><span>5 分钟</span></div>
+          <div class="ac-title">睡前90分钟热水澡：体温下降触发睡意的物理机制</div>
+          <div class="ac-excerpt">睡眠起始时核心体温需下降约0.5-1℃。热水澡浴后散热加速核心体温下降，相当于"人工触发"睡眠生理信号，入睡时间平均缩短10分钟。</div>
+          <div class="ac-footer"><span class="ac-source">UT Austin 研究·2019</span><span class="ac-read">阅读全文 →</span></div>
+        </div>
+      </div>
+
+      <div class="article-card reveal" data-cat="child" onclick="location.href='article.html?id=baby-sleep'" style="cursor:pointer">
+        <div class="ac-thumb bg-baby">
+          <span class="ac-icon">👶</span>
+          <span class="ac-label">婴幼儿睡眠</span>
+        </div>
+        <div class="ac-body">
+          <div class="ac-meta"><span>2026·05·05</span><span>12 分钟</span></div>
+          <div class="ac-title">0-3岁宝宝睡眠规律完全指南：月龄特点与常见误区</div>
+          <div class="ac-excerpt">婴幼儿REM睡眠占比高达50%，是大脑神经回路快速发育的必要条件。新生儿无昼夜节律，不同月龄睡眠时长参考，帮助父母建立合理预期。</div>
+          <div class="ac-footer"><span class="ac-source">AAP 儿科学会建议</span><span class="ac-read">阅读全文 →</span></div>
+        </div>
+      </div>
+    </div>
+
+          <div class="article-card reveal" data-cat="science" onclick="location.href='article.html?id=ps-circadian'" style="cursor:pointer">
+        <div class="ac-thumb bg-brain">
+          <span class="ac-icon">⏰</span>
+          <span class="ac-label">睡眠科学</span>
+        </div>
+        <div class="ac-body">
+          <div class="ac-meta"><span>2026·07·10</span><span>7 分钟</span></div>
+          <div class="ac-title">你的昼夜节律，藏着9种「体质」</div>
+          <div class="ac-excerpt">近6万人的加速度计大数据揭示：每个人的昼夜节律有9种精细画像，且能更好地预测长期健康。</div>
+          <div class="ac-footer"><span class="ac-source">译自 Nature Communications 2025</span><span class="ac-read">阅读全文 →</span></div>
+        </div>
+      </div>
+      <div class="article-card reveal" data-cat="science" onclick="location.href='article.html?id=ps-memory'" style="cursor:pointer">
+        <div class="ac-thumb bg-brain">
+          <span class="ac-icon">🧠</span>
+          <span class="ac-label">睡眠科学</span>
+        </div>
+        <div class="ac-body">
+          <div class="ac-meta"><span>2026·07·10</span><span>7 分钟</span></div>
+          <div class="ac-title">熬一夜，大脑就压不住糟糕回忆</div>
+          <div class="ac-excerpt">85人脑成像实验显示：睡眠剥夺会削弱前额叶「记忆刹车」，让侵入性记忆更难压住，而REM睡眠能修复它。</div>
+          <div class="ac-footer"><span class="ac-source">译自 PNAS 2025</span><span class="ac-read">阅读全文 →</span></div>
+        </div>
+      </div>
+      <div class="article-card reveal" data-cat="science" onclick="location.href='article.html?id=ps-glymphatic'" style="cursor:pointer">
+        <div class="ac-thumb bg-brain">
+          <span class="ac-icon">💧</span>
+          <span class="ac-label">睡眠科学</span>
+        </div>
+        <div class="ac-body">
+          <div class="ac-meta"><span>2026·07·10</span><span>7 分钟</span></div>
+          <div class="ac-title">睡着时大脑在「冲洗」自己</div>
+          <div class="ac-excerpt">小鼠研究揭示：深睡期血管像泵一样把脑脊液推入大脑清走废物，而助眠药唑吡坦会抑制这一过程。</div>
+          <div class="ac-footer"><span class="ac-source">译自 Cell 2025</span><span class="ac-read">阅读全文 →</span></div>
+        </div>
+      </div>
+
+<!-- Deep Dive Mini Section -->
+    <div class="depth-section reveal">
+      <h3>深度专题</h3>
+      <div class="mini-grid">
+        <div class="mini-card" onclick="location.href='article.html?id=pink-noise'" style="cursor:pointer">
+          <div class="mini-thumb bg-moon"><span class="mini-icon">🌊</span><span class="mini-label">睡眠科学</span></div>
+          <div class="mini-body">
+            <div class="mini-title">粉噪音如何延长慢波睡眠？</div>
+            <div class="mini-excerpt">2023年Nature Comm研究：与睡眠慢波同步的声学刺激可将深睡眠时长延长11%。</div>
+          </div>
+        </div>
+        <div class="mini-card" onclick="location.href='article.html?id=insomnia-neuro'" style="cursor:pointer">
+          <div class="mini-thumb bg-brain"><span class="mini-icon">⚡</span><span class="mini-label">神经科学</span></div>
+          <div class="mini-body">
+            <div class="mini-title">失眠的神经机制：过度觉醒假说</div>
+            <div class="mini-excerpt">慢性失眠患者的默认模式网络在睡眠期间持续过度活跃——"脑子停不下来"的神经基础。</div>
+          </div>
+        </div>
+        <div class="mini-card" onclick="location.href='article.html?id=tcm-sleep'" style="cursor:pointer">
+          <div class="mini-thumb bg-tcm"><span class="mini-icon">🌿</span><span class="mini-label">中式养生</span></div>
+          <div class="mini-body">
+            <div class="mini-title">酸枣仁、合欢皮、远志的现代研究</div>
+            <div class="mini-excerpt">酸枣仁皂苷具有GABA-A受体激动作用，与苯二氮䓬类药物机制相似但无依赖性。</div>
+          </div>
+        </div>
+        <div class="mini-card" onclick="location.href='article.html?id=478-breathing'" style="cursor:pointer">
+          <div class="mini-thumb bg-anxiety"><span class="mini-icon">🫁</span><span class="mini-label">正念冥想</span></div>
+          <div class="mini-body">
+            <div class="mini-title">4-7-8呼吸法的科学原理</div>
+            <div class="mini-excerpt">延长呼气激活迷走神经、降低心率变异性，交感神经系统"降档"。两周可改善入睡困难。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Knowledge Source Banner -->
+    <div class="source-banner reveal">
+      <div class="sb-icon">📚</div>
+      <div class="sb-text">
+        <strong>内容来源声明</strong>
+        <span>本站文章参考来自好睡眠知识库（581人订阅）、正念认知睡眠（3946篇文献）、睡眠呼吸冥想养生等专业知识库。内容每周同步更新，引用来源见各文章底部。所有内容仅供健康生活参考，不构成医学诊断或治疗建议。</span>
+      </div>
+    </div>
+
+  </div>
+
+        <!-- Auto-published from IMA -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=白天小睡术后谵妄'" style="cursor:pointer">
+          <div class="item-date">2026-09-04</div>
+          <h3>白天小睡术后谵妄</h3>
+          <p>你有没有过这种习惯——中午吃完饭脑子发沉，往沙发上一瘫眯半小时；或者下午三四点困得睁不开眼，趴桌上补一觉。你以为这是在“养生”，是身体在自救。可身体未必这么想。 但一项刚发表在《Journal of Sleep Research》（2026年）上的研究，偏偏盯上了这个再普通不过的动作：白天小睡。它发现，白天小睡越多的人，做完手术之后出现“谵妄”——一种突发的精神混乱——的风险越高。 💡 划重点</p>
+          <div class="item-meta"><span>⏱️ 4 分钟</span></div>
+        </div>
+    
+        <!-- Auto-published from IMA -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=作息飘忽伤身'" style="cursor:pointer">
+          <div class="item-date">2026-09-04</div>
+          <h3>作息飘忽伤身</h3>
+          <p>【划重点】你以为熬夜后周末补一觉就“还债”了？澳大利亚团队追踪 9.5 万人、近 20 个月的真实睡眠数据发现：睡眠忽长忽短、作息飘忽本身，就在悄悄拉低睡眠质量、抬高血压。比“睡够几小时”更该盯的，是“每天差不多”。 你有没有过这种状态：工作日累到凌晨一点才睡，周末报复性赖床到中午。你安慰自己“反正周末补回来了”。可周一还是困，头昏沉沉，连血压都比去年高了一点。 💡 我们一直算错了“账” 我们总</p>
+          <div class="item-meta"><span>⏱️ 3 分钟</span></div>
+        </div>
+    
+        <!-- Auto-published from IMA -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=中年女性睡眠waso'" style="cursor:pointer">
+          <div class="item-date">2026-09-04</div>
+          <h3>中年女性睡眠WASO</h3>
+          <p>💡 划重点 一项覆盖 19.25 万名女性、累计 380 万晚睡眠数据的跨国智能手表研究（Sleep, 2026）发现：中年女性睡不好的真正崩点，往往不是「睡不着」，而是「睡着了却反复醒」。一过 50 岁，夜里多醒的时长逐年攀升，到 60–64 岁比 20 多岁时多出约 32%；而总睡眠时长其实只少了不到 17 分钟。 🛏️ 你有没有过这种「睡了像没睡」 明明 11 点就躺下了，早上醒来却像被</p>
+          <div class="item-meta"><span>⏱️ 4 分钟</span></div>
+        </div>
+    
+        <!-- Auto-published from IMA -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=熬夜学新动作'" style="cursor:pointer">
+          <div class="item-date">2026-09-04</div>
+          <h3>熬夜学新动作</h3>
+          <p>【划重点】熬一夜不睡，你学新动作（练琴、学舞步、记一套新操作）时会明显变手慢。但动作到底做对没做对，你脑子里清清楚楚。这种慢只出现在练习的当下；等睡一觉起来，24 小时、7 天后的长期记忆一点没少。 你有没有过这种体验：前一天没睡好，第二天去学新动作，吉他扫弦、网球发球，或者公司新系统那串操作步骤，明明脑子知道该怎么做，手却老是慢半拍、卡壳。你以为是自己笨。其实不是，是睡眠不足在悄悄拖慢你的手，不</p>
+          <div class="item-meta"><span>⏱️ 4 分钟</span></div>
+        </div>
+    
+        <!-- Auto-published from IMA -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=梦中恐惧'" style="cursor:pointer">
+          <div class="item-date">2026-09-04</div>
+          <h3>梦中恐惧</h3>
+          <p>你有没有过这种经历——半夜梦见被什么东西追，一身冷汗惊醒；结果第二天，刷到一条略带伤感的短视频，情绪却比平时&apos;上头&apos;得多，半天缓不过来。你可能会想：&apos;我是不是太脆弱了？&apos; 一篇刚发表在《Sleep》上的研究给了不一样的答案：这未必是脆弱，反而可能是你的大脑情绪系统很&apos;在线&apos;。 🌙 先说结论：梦里的恐惧，和白天的心动是连着的 芬兰图尔库大</p>
+          <div class="item-meta"><span>⏱️ 4 分钟</span></div>
+        </div>
+    
+        <!-- Auto-published from IMA (backfill) -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=env-sleep'" style="cursor:pointer">
+          <div class="item-date">2025-02-18</div>
+          <h3>优化睡眠环境：完整检查清单</h3>
+          <p>优化睡眠环境：完整检查清单</p>
+          <div class="item-meta"><span>⏱️ 7 分钟</span></div>
+        </div>
+
+        <!-- Auto-published from IMA (backfill) -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=cbti失眠'" style="cursor:pointer">
+          <div class="item-date">2026-09-04</div>
+          <h3>CBT-I失眠</h3>
+          <p>死磕 8 小时不如这招：5 周线上 CBT-I，近四成人失眠明显改善，效果撑过半年。</p>
+          <div class="item-meta"><span>⏱️ 6 分钟</span></div>
+        </div>
+
+        <!-- Auto-published from IMA (backfill) -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=情绪睡眠'" style="cursor:pointer">
+          <div class="item-date">2026-09-04</div>
+          <h3>情绪睡眠</h3>
+          <p>白天的火气当晚就结账：166 人连记 7 天，反复钻牛角尖最伤那一晚的睡眠。</p>
+          <div class="item-meta"><span>⏱️ 4 分钟</span></div>
+        </div>
+
+        <!-- Auto-published from IMA (backfill) -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=rbd帕金森早筛'" style="cursor:pointer">
+          <div class="item-date">2026-09-04</div>
+          <h3>RBD帕金森早筛</h3>
+          <p>睡着拳打脚踢不只是睡相差：腕上加速度数据交给 AI，识别准确率超过 93%。</p>
+          <div class="item-meta"><span>⏱️ 5 分钟</span></div>
+        </div>
+
+        <!-- Auto-published from IMA (backfill) -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=药师说酸枣仁治失眠'" style="cursor:pointer">
+          <div class="item-date">2026-09-04</div>
+          <h3>药师说-酸枣仁治失眠</h3>
+          <p>药师把证据摊开：它作用于大脑的 GABA「刹车」，温和调节而非神奇开关。</p>
+          <div class="item-meta"><span>⏱️ 4 分钟</span></div>
+        </div>
+
+        <!-- Auto-published from IMA (backfill) -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=女性更容易失眠'" style="cursor:pointer">
+          <div class="item-date">2026-09-04</div>
+          <h3>女性更容易失眠</h3>
+          <p>扫了 222 人的睡眠脑电：女性失眠者的降噪耳机又少又弱，夜里更容易被惊醒。</p>
+          <div class="item-meta"><span>⏱️ 4 分钟</span></div>
+        </div>
+
+        <!-- Auto-published from IMA (backfill) -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=手表测睡眠准吗'" style="cursor:pointer">
+          <div class="item-date">2026-09-04</div>
+          <h3>手表测睡眠准吗</h3>
+          <p>同一个人同一晚四台设备：只有「睡了多久」互相对得上，深睡时长各说各话。</p>
+          <div class="item-meta"><span>⏱️ 5 分钟</span></div>
+        </div>
+
+        <!-- Auto-published from IMA (backfill) -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=失眠大脑灯没关'" style="cursor:pointer">
+          <div class="item-date">2026-09-04</div>
+          <h3>失眠大脑灯没关</h3>
+          <p>深夜给大脑拍张热力图：该拉闸的前额叶失灵，管回忆和情绪的房间还亮着灯。</p>
+          <div class="item-meta"><span>⏱️ 4 分钟</span></div>
+        </div>
+
+        <!-- Auto-published from IMA (backfill) -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=做噩梦白天更脆弱'" style="cursor:pointer">
+          <div class="item-date">2026-09-04</div>
+          <h3>做噩梦白天更脆弱</h3>
+          <p>87 人记了 7 天梦：梦里越害怕，白天那盏情绪信号灯亮得越猛，你却说没事。</p>
+          <div class="item-meta"><span>⏱️ 5 分钟</span></div>
+        </div>
+
+        <!-- Auto-published from IMA (backfill) -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=睡眠时长剂量反应'" style="cursor:pointer">
+          <div class="item-date">2026-09-04</div>
+          <h3>睡眠时长剂量反应</h3>
+          <p>近 8 万人画出 J 形曲线：睡太少和太多都往上翘，最低点落在 7 小时附近。</p>
+          <div class="item-meta"><span>⏱️ 5 分钟</span></div>
+        </div>
+
+        <!-- Auto-published from IMA (backfill) -->
+        <div class="article-item reveal" data-cat="science" onclick="location.href='article.html?id=戒了咖啡还失眠'" style="cursor:pointer">
+          <div class="item-date">2026-09-04</div>
+          <h3>戒了咖啡还失眠</h3>
+          <p>咖啡只背了 26% 的锅：白天不动、晒不到太阳、睡点天天飘，才是睡眠杀手。</p>
+          <div class="item-meta"><span>⏱️ 3 分钟</span></div>
+        </div>
+    </section>
+
+<!-- GZH-PROMO-START -->
+<div style="max-width:1120px;margin:0 auto;padding:16px 20px 6px;display:flex;align-items:center;gap:14px;">
+  <img src="images/gzh_qr.jpg" alt="WeChat QR" width="84" height="84" loading="lazy" style="border-radius:8px;flex:0 0 auto;background:#fff;padding:3px;">
+  <div style="font-size:0.92rem;line-height:1.75;opacity:0.92;">
+    <strong>微信公众号「梁林源」· 睡眠研究速递</strong><br>每天一条睡好觉的研究依据，已验证的睡眠科普。<br><span style="opacity:0.75;">微信扫码，即刻关注。</span>
+  </div>
+</div>
+<!-- GZH-PROMO-END -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo-main">眠境·养生</div><p>以自然之道，唤醒内在的宁静与平衡。</p><div style="margin-top:1.5rem;font-size:0.78rem;color:rgba(249,245,239,0.35);">本站内容仅供参考，不构成医疗建议。</div></div>
+      <div class="footer-links"><h4>内容板块</h4><a href="science.html">睡眠科普</a><a href="music.html">助眠音馆</a><a href="food.html">养生食养</a><a href="shop.html">好物商城</a></div>
+      <div class="footer-links"><h4>AI 服务</h4><a href="ai-assistant.html">AI科普助手</a></div>
+      <div class="footer-links"><h4>了解更多</h4><a href="about.html">关于我们</a><a href="disclaimer.html">免责声明</a><a href="privacy.html">隐私政策</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 眠境·养生. 保留所有权利。</span><span>ICP备案号: 粤ICP备XXXXXXXX号</span></div>
+  </div>
+</footer>
+
+<script src="../shared/js/auth.js"></script>
+<script src="../shared/js/auth-ui.js"></script>
+<script src="../shared/js/main.js"></script>
+<script>
+function filterCat(btn, cat) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  // Apply to every card that carries a data-cat: grid cards (.article-card)
+  // and the IMA auto-published list cards (.article-item) alike.
+  document.querySelectorAll('.article-card, .article-item').forEach(item => {
+    const shouldShow = cat === 'all' || item.dataset.cat === cat;
+    item.style.display = shouldShow ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
