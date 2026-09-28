@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="好物商城 — 精选助眠实体好物，天然寝具、香薰、遮光眼罩。跳转阿里巴巴正品购买链接。">
+  <title>好物商城 — 眠境·养生</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/css/design-system.css">
+  <style>
+    .page-hero { padding: calc(var(--nav-h) + var(--space-xl)) 0 var(--space-xl); background: linear-gradient(135deg, var(--clr-cream) 0%, var(--clr-sand) 100%); text-align: center; }
+    .shop-main-grid { display: grid; grid-template-columns: 220px 1fr; gap: var(--space-xl); align-items: start; }
+    .shop-sidebar { position: sticky; top: calc(var(--nav-h) + 1.5rem); }
+    .shop-filter-card { background: var(--clr-bg-card); border-radius: var(--radius-lg); padding: var(--space-md); box-shadow: var(--shadow-sm); margin-bottom: 1rem; }
+    .shop-filter-card h4 { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--clr-text-muted); margin-bottom: 0.75rem; }
+    .filter-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; cursor: pointer; font-size: 0.85rem; color: var(--clr-text-secondary); transition: var(--transition); border-radius: var(--radius-sm); }
+    .filter-item:hover { color: var(--clr-sage-deep); }
+    .filter-item.active { color: var(--clr-sage-deep); font-weight: 600; }
+    .filter-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--clr-sand); flex-shrink: 0; }
+    .filter-item.active .filter-dot { background: var(--clr-sage); }
+
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-md); }
+    .product-card { background: var(--clr-bg-card); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); transition: var(--transition); }
+    .product-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+    .product-img { width: 100%; aspect-ratio: 1/1; position: relative; overflow: hidden; }
+    .product-badge { position: absolute; top: 0.75rem; left: 0.75rem; background: var(--clr-sage); color: white; font-size: 0.65rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: var(--radius-pill); z-index: 2; }
+
+    /* 产品封面 CSS 视觉 */
+    .prod-latex-pillow {
+      background: linear-gradient(160deg, #E8EDE0 0%, #D4DBC8 50%, #C8D4B8 100%);
+    }
+    .prod-latex-pillow::before {
+      content: ''; position: absolute;
+      bottom: 10%; left: 50%; transform: translateX(-50%);
+      width: 75%; height: 35%; border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+      background: linear-gradient(180deg, #F0F4E8 0%, #D8E4C8 100%);
+      box-shadow: 0 4px 20px rgba(100,130,80,0.15);
+    }
+    .prod-bamboo-pillow {
+      background: linear-gradient(160deg, #D8E8E0 0%, #BED4C8 50%, #A8C4B4 100%);
+    }
+    .prod-bamboo-pillow::before {
+      content: ''; position: absolute;
+      bottom: 15%; left: 50%; transform: translateX(-50%);
+      width: 70%; height: 30%; border-radius: 50%;
+      background: linear-gradient(180deg, #E8F4EC 0%, #C4DCC8 100%);
+      box-shadow: 0 4px 16px rgba(60,120,80,0.2);
+    }
+    .prod-lavender-candle {
+      background: linear-gradient(160deg, #E8E0F0 0%, #D0C4E4 50%, #C4B4D8 100%);
+    }
+    .prod-lavender-candle::before {
+      content: ''; position: absolute;
+      bottom: 15%; left: 50%; transform: translateX(-50%);
+      width: 28%; height: 45%; border-radius: 4px 4px 2px 2px;
+      background: linear-gradient(180deg, #F8F0F8 0%, #E0D0EC 100%);
+      box-shadow: 0 0 20px rgba(180,120,220,0.2);
+    }
+    .prod-lavender-candle::after {
+      content: ''; position: absolute;
+      bottom: 61%; left: 50%; transform: translateX(-50%);
+      width: 2px; height: 20px;
+      background: linear-gradient(to top, #F5A623, #FFF0A0, rgba(255,240,160,0));
+      box-shadow: 0 0 8px 3px rgba(255,200,60,0.35);
+    }
+    .prod-diffuser {
+      background: linear-gradient(160deg, #EAE0F0 0%, #D8CCE8 50%, #CCC0DC 100%);
+    }
+    .prod-diffuser::before {
+      content: ''; position: absolute;
+      bottom: 10%; left: 50%; transform: translateX(-50%);
+      width: 35%; height: 50%; border-radius: 50% 50% 30% 30% / 40% 40% 60% 60%;
+      background: linear-gradient(180deg, #F5F0FA 0%, #E0D4F0 100%);
+      box-shadow: 0 4px 20px rgba(140,100,200,0.15);
+    }
+    .prod-eye-mask {
+      background: linear-gradient(160deg, #E0D8EC 0%, #CABCD8 50%, #B8A8CC 100%);
+    }
+    .prod-eye-mask::before {
+      content: ''; position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 70%; height: 28%; border-radius: 50%;
+      background: linear-gradient(180deg, #D0C0E0 0%, #B8A0CC 100%);
+      box-shadow: 0 2px 12px rgba(100,60,160,0.2);
+    }
+    .prod-ionizer {
+      background: linear-gradient(160deg, #E0EAE8 0%, #C8D8D4 50%, #B4C8C4 100%);
+    }
+    .prod-ionizer::before {
+      content: ''; position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 40%; height: 55%; border-radius: 8px;
+      background: linear-gradient(180deg, #F0F8F4 0%, #D0E4E0 100%);
+      box-shadow: 0 4px 16px rgba(60,120,100,0.2);
+    }
+    .prod-white-noise {
+      background: linear-gradient(160deg, #DDE8F0 0%, #C8D8E8 50%, #B8CCD8 100%);
+    }
+    .prod-white-noise::before {
+      content: ''; position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 45%; height: 45%; border-radius: 50%;
+      background: radial-gradient(circle, #EEF4FA 0%, #C8D8E8 100%);
+      box-shadow: 0 4px 20px rgba(80,140,200,0.2);
+    }
+    .prod-sunrise-lamp {
+      background: linear-gradient(160deg, #F8E8D0 0%, #F0D0A8 50%, #E8C898 100%);
+    }
+    .prod-sunrise-lamp::before {
+      content: ''; position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 50%; height: 50%; border-radius: 50%;
+      background: radial-gradient(circle, #FFF8E0 20%, #F5D080 60%, #E8A840 100%);
+      box-shadow: 0 0 30px rgba(240,180,60,0.35);
+    }
+    .prod-jujube-tea {
+      background: linear-gradient(160deg, #EAE0D0 0%, #D8C8B0 50%, #CDB898 100%);
+    }
+    .prod-jujube-tea::before {
+      content: ''; position: absolute;
+      bottom: 12%; left: 50%; transform: translateX(-50%);
+      width: 38%; height: 48%; border-radius: 40% 40% 50% 50% / 30% 30% 70% 70%;
+      background: linear-gradient(180deg, #F8F0E0 0%, #E0C898 100%);
+      box-shadow: 0 4px 16px rgba(160,100,40,0.15);
+    }
+    .prod-silk-blanket {
+      background: linear-gradient(160deg, #F0E8E0 0%, #E4D8C8 50%, #D8C8B8 100%);
+    }
+    .prod-sleep-patch {
+      background: linear-gradient(160deg, #E0ECE0 0%, #C8DCC8 50%, #B8CEB8 100%);
+    }
+    .prod-weighted-blanket {
+      background: linear-gradient(160deg, #E8E0EC 0%, #D8CCE0 50%, #C8B8D0 100%);
+    }
+
+    /* 产品图中央图标 */
+    .prod-icon {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -60%);
+      font-size: 3rem; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15)); z-index: 2;
+    }
+    .product-body { padding: 1rem; }
+    .product-name { font-weight: 600; font-size: 0.92rem; margin-bottom: 0.3rem; }
+    .product-desc { font-size: 0.78rem; color: var(--clr-text-secondary); line-height: 1.6; margin-bottom: 0.75rem; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: var(--clr-bg-section); border-top: 1px solid var(--clr-sand); }
+    .product-price { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; }
+    .ali-btn { display: inline-flex; align-items: center; gap: 0.3rem; background: #FF6A00; color: white; font-size: 0.75rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: var(--radius-pill); transition: var(--transition); }
+    .ali-btn:hover { background: #E85A00; transform: scale(1.04); }
+
+    .sort-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-md); flex-wrap: wrap; gap: 0.75rem; }
+    .sort-btns { display: flex; gap: 0.4rem; }
+    .sort-btn { padding: 0.35rem 0.9rem; border-radius: var(--radius-pill); font-size: 0.78rem; font-weight: 500; border: 1px solid var(--clr-sand); background: white; cursor: pointer; transition: var(--transition); }
+    .sort-btn.active { background: var(--clr-night); color: white; border-color: var(--clr-night); }
+
+    .ali-notice { background: rgba(255,106,0,0.06); border: 1px solid rgba(255,106,0,0.15); border-radius: var(--radius-md); padding: 0.75rem 1rem; font-size: 0.78rem; color: #8A4500; margin-bottom: var(--space-lg); display: flex; align-items: center; gap: 0.5rem; }
+
+    @media (max-width: 768px) { .shop-main-grid { grid-template-columns: 1fr; } .shop-sidebar { position: static; } }
+  </style>
+  <!-- 统计分析 -->
+  <script>window.BAIDU_TONGJI_ID='${BAIDU_CODE}';</script>
+  <script>window.GA4_MEASUREMENT_ID='${GA4_ID}';</script>
+  <script src="../shared/js/analytics.js"></script>
+  <!-- OG / Twitter (added by content-optimization) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SleepWell Studio">
+  <meta property="og:title" content="好物商城 — 眠境·养生">
+  <meta property="og:description" content="Evidence-based sleep science, sound library, wellness diet and curated shop by SleepWell Studio.">
+  <meta property="og:image" content="images/img-circadian.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="好物商城 — 眠境·养生">
+  <meta name="twitter:description" content="Evidence-based sleep science, sound library, wellness diet and curated shop by SleepWell Studio.">
+  </head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="logo-main">眠境·养生</span><span class="logo-sub">Sleep & Wellness</span></a>
+    <div class="nav-links">
+      <a href="index.html">首页</a><a href="sleep-calculator.html">睡眠计算器</a><a href="science.html">睡眠科普</a><a href="music.html">助眠音馆</a>
+      <a href="food.html">养生食养</a><a href="shop.html" class="active">好物商城</a>
+      <a href="ai-assistant.html" class="nav-ai">🤖 AI科普助手</a><a href="about.html">关于我们</a>
+    </div>
+    <div class="nav-actions">
+      <a href="https://lianglinyuan666-ai.github.io/sleep-wellness-global/" class="nav-lang-switch">🌐 English</a>
+      <div class="nav-burger" id="navBurger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="sleep-calculator.html">⏰ 睡眠计算器</a>
+  <a href="index.html">🏠 首页</a><a href="science.html">🔬 睡眠科普</a><a href="music.html">🎵 助眠音馆</a>
+  <a href="food.html">🌿 养生食养</a><a href="shop.html">🛍 好物商城</a><a href="ai-assistant.html">🤖 AI科普助手</a><a href="about.html">💬 关于我们</a>
+</div>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="label-tag animate-fade-up">精选好物</div>
+    <h1 class="heading-display animate-fade-up" style="margin-top:0.75rem;">助眠好物精选</h1>
+    <p style="font-size:1rem;color:var(--clr-text-secondary);max-width:480px;margin:1rem auto;line-height:1.8;" class="animate-fade-up">每件产品经过严格筛选，自然材质、有助于营造良好睡眠环境。点击即跳转阿里巴巴正品购买。</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="ali-notice reveal">
+      🔗 <strong>购买说明：</strong>本商城所有实体商品均跳转至阿里巴巴1688/淘宝平台完成购买，本站仅负责推荐筛选，不直接处理支付及发货。
+    </div>
+    <div class="ali-notice reveal" style="background:rgba(63,107,82,0.07);border-color:rgba(63,107,82,0.20);color:#2F5540;">
+      ℹ️ <strong>联盟披露：</strong>本页部分链接为联盟推广链接。若你通过这些链接购买，本站可能获得少量佣金，不会增加你的额外支出，也不会影响我们的选品判断。养生内容仅作生活科普，不构成医疗建议。
+    </div>
+
+    <div class="shop-main-grid">
+      <!-- 侧边筛选 -->
+      <aside class="shop-sidebar">
+        <div class="shop-filter-card reveal">
+          <h4>商品分类</h4>
+          <div class="filter-item active" onclick="filterShop(this,'all')"><div class="filter-dot"></div>全部商品</div>
+          <div class="filter-item" onclick="filterShop(this,'pillow')"><div class="filter-dot"></div>枕头寝具</div>
+          <div class="filter-item" onclick="filterShop(this,'aroma')"><div class="filter-dot"></div>香薰蜡烛</div>
+          <div class="filter-item" onclick="filterShop(this,'eye')"><div class="filter-dot"></div>遮光眼罩</div>
+          <div class="filter-item" onclick="filterShop(this,'device')"><div class="filter-dot"></div>助眠仪器</div>
+          <div class="filter-item" onclick="filterShop(this,'tea')"><div class="filter-dot"></div>养生茶饮</div>
+          <div class="filter-item" onclick="filterShop(this,'supplement')"><div class="filter-dot"></div>膳食补充</div>
+        </div>
+        <div class="shop-filter-card reveal" style="background:var(--clr-night);color:var(--clr-cream);">
+          <h4 style="color:rgba(249,245,239,0.4);">💡 选购提示</h4>
+          <p style="font-size:0.78rem;color:rgba(249,245,239,0.65);line-height:1.7;">所有推荐产品仅供参考，不构成医疗建议。请根据个人情况选择适合的商品。</p>
+        </div>
+      </aside>
+
+      <!-- 商品列表 -->
+      <main>
+        <div class="sort-bar reveal">
+          <span style="font-size:0.85rem;color:var(--clr-text-muted);">共 10 件精选商品</span>
+          <div class="sort-btns">
+            <button class="sort-btn active">综合排序</button>
+            <button class="sort-btn">价格↑</button>
+            <button class="sort-btn">价格↓</button>
+            <button class="sort-btn">热销</button>
+          </div>
+        </div>
+
+        <div class="products-grid">
+      <div class="product-card reveal" data-shop-cat="device">
+        <div class="product-img" style="background:linear-gradient(135deg,#DCE8F0,#B4C8DA);"><span class="product-badge">爆款</span><span style="font-size:3rem;">🔊</span></div>
+        <div class="product-body">
+          <div class="product-name">白噪音助眠音响</div>
+          <div class="product-desc">30+ 不循环自然音效，带定时关闭。有效遮蔽车流、鼾声与邻居噪音——增速最快的助眠品类。</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">¥199+</span>
+          <a href="https://s.taobao.com/search?q=%E7%99%BD%E5%99%AA%E9%9F%B3%E5%8A%A9%E7%9C%A0%E9%9F%B3%E5%93%8D" target="_blank" rel="nofollow sponsored noopener" class="ali-btn" data-aff-id="white-noise-machine">🛒 去看看</a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-shop-cat="eye">
+        <div class="product-img" style="background:linear-gradient(135deg,#E0D8F0,#BCAECF);"><span class="product-badge">+55x</span><span style="font-size:3rem;">😌</span></div>
+        <div class="product-body">
+          <div class="product-name">重力助眠眼罩</div>
+          <div class="product-desc">微珠均匀分布带来轻柔压迫感，帮助安抚神经。全遮光且零眼部压迫。</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">¥89+</span>
+          <a href="https://s.taobao.com/search?q=%E9%87%8D%E5%8A%9B%E5%8A%A9%E7%9C%A0%E7%9C%BC%E7%BD%A9" target="_blank" rel="nofollow sponsored noopener" class="ali-btn" data-aff-id="gravity-eye-mask">🛒 去看看</a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-shop-cat="tea">
+        <div class="product-img" style="background:linear-gradient(135deg,#F0E8D8,#D8C4A0);"><span class="product-badge">中医</span><span style="font-size:3rem;">🍵</span></div>
+        <div class="product-body">
+          <div class="product-name">酸枣仁百合安睡茶</div>
+          <div class="product-desc">中医经典安神配方，针对心烦、易醒、入睡困难。无咖啡因，适合睡前仪式。</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">¥39+</span>
+          <a href="https://s.taobao.com/search?q=%E9%85%B8%E6%9E%A3%E4%BB%81%E7%99%BE%E5%90%88%E8%8C%B6" target="_blank" rel="nofollow sponsored noopener" class="ali-btn" data-aff-id="jujube-tea">🛒 去看看</a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-shop-cat="supplement">
+        <div class="product-img" style="background:linear-gradient(135deg,#E4F0E4,#BFD8BF);"><span class="product-badge">天然</span><span style="font-size:3rem;">💊</span></div>
+        <div class="product-body">
+          <div class="product-name">甘氨酸镁 + GABA</div>
+          <div class="product-desc">高吸收甘氨酸镁配合 GABA，比褪黑素更温和、不易产生依赖的放松选择。</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">¥99+</span>
+          <a href="https://s.taobao.com/search?q=%E7%94%98%E6%B0%A8%E9%85%B8%E9%95%81%20GABA" target="_blank" rel="nofollow sponsored noopener" class="ali-btn" data-aff-id="magnesium-gaba">🛒 去看看</a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-shop-cat="device">
+        <div class="product-img" style="background:linear-gradient(135deg,#DDE8EE,#B4C8D4);"><span class="product-badge">数据</span><span style="font-size:3rem;">⌚</span></div>
+        <div class="product-body">
+          <div class="product-name">智能睡眠监测仪</div>
+          <div class="product-desc">记录睡眠分期、心率与夜间觉醒，把「睡得不好」变成可量化的数据。</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">¥299+</span>
+          <a href="https://s.taobao.com/search?q=%E6%99%BA%E8%83%BD%E7%9D%A1%E7%9C%A0%E7%9B%91%E6%B5%8B%E4%BB%AA" target="_blank" rel="nofollow sponsored noopener" class="ali-btn" data-aff-id="sleep-tracker">🛒 去看看</a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-shop-cat="device">
+        <div class="product-img" style="background:linear-gradient(135deg,#E0E8F5,#B8C8E0);"><span class="product-badge">+22x</span><span style="font-size:3rem;">🎵</span></div>
+        <div class="product-body">
+          <div class="product-name">枕下音响</div>
+          <div class="product-desc">置于枕下，只有自己听得见。听白噪音或冥想引导也不会打扰伴侣。</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">¥129+</span>
+          <a href="https://s.taobao.com/search?q=%E6%9E%95%E4%B8%8B%E9%9F%B3%E7%AE%B1" target="_blank" rel="nofollow sponsored noopener" class="ali-btn" data-aff-id="under-pillow-speaker">🛒 去看看</a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-shop-cat="eye">
+        <div class="product-img" style="background:linear-gradient(135deg,#F0E0E4,#D4B8BE);"><span class="product-badge">性价比</span><span style="font-size:3rem;">😴</span></div>
+        <div class="product-body">
+          <div class="product-name">桑蚕丝 3D 睡眠眼罩</div>
+          <div class="product-desc">100% 桑蚕丝，3D 立体剪裁。遮光却不压睫毛，侧睡与差旅友好。</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">¥49+</span>
+          <a href="https://s.taobao.com/search?q=%E6%A1%91%E8%9A%95%E4%B8%9D%E7%9C%A0%E7%9C%A0%E7%9C%BC%E7%BD%A9" target="_blank" rel="nofollow sponsored noopener" class="ali-btn" data-aff-id="silk-mask">🛒 去看看</a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-shop-cat="device">
+        <div class="product-img" style="background:linear-gradient(135deg,#F8E8C8,#E4C890);"><span class="product-badge">节律</span><span style="font-size:3rem;">🌅</span></div>
+        <div class="product-body">
+          <div class="product-name">日出唤醒灯</div>
+          <div class="product-desc">30 分钟由暖红渐变至亮白，模拟日出。调节昼夜节律，告别刺耳闹铃。</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">¥189+</span>
+          <a href="https://s.taobao.com/search?q=%E6%97%A5%E5%87%BA%E5%94%A4%E9%86%92%E7%81%AF" target="_blank" rel="nofollow sponsored noopener" class="ali-btn" data-aff-id="sunrise-light">🛒 去看看</a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-shop-cat="aroma">
+        <div class="product-img" style="background:linear-gradient(135deg,#E8F0EA,#C4D8C8);"><span class="product-badge">放松</span><span style="font-size:3rem;">🌫</span></div>
+        <div class="product-body">
+          <div class="product-name">香薰超声波扩香器</div>
+          <div class="product-desc">静音超声雾化，配七彩氛围灯与自动断电。搭配薰衣草，构建睡前感官仪式。</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">¥119+</span>
+          <a href="https://s.taobao.com/search?q=%E9%A6%99%E8%96%B0%E6%89%A9%E9%A6%99%E5%99%A8" target="_blank" rel="nofollow sponsored noopener" class="ali-btn" data-aff-id="diffuser">🛒 去看看</a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-shop-cat="pillow">
+        <div class="product-img" style="background:linear-gradient(135deg,#EDE8F0,#C8BCD0);"><span class="product-badge">护颈</span><span style="font-size:3rem;">🛏</span></div>
+        <div class="product-body">
+          <div class="product-name">天然乳胶枕</div>
+          <div class="product-desc">100% 天然乳胶，透气护颈、防螨。减少因颈部不适导致的夜间翻身。</div>
+        </div>
+        <div class="product-footer">
+          <span class="product-price">¥159+</span>
+          <a href="https://s.taobao.com/search?q=%E5%A4%A9%E7%84%B6%E4%B9%B3%E8%83%B6%E6%9E%95" target="_blank" rel="nofollow sponsored noopener" class="ali-btn" data-aff-id="latex-pillow">🛒 去看看</a>
+        </div>
+      </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+</section>
+
+<!-- GZH-PROMO-START -->
+<div style="max-width:1120px;margin:0 auto;padding:16px 20px 6px;display:flex;align-items:center;gap:14px;">
+  <img src="images/gzh_qr.jpg" alt="WeChat QR" width="84" height="84" loading="lazy" style="border-radius:8px;flex:0 0 auto;background:#fff;padding:3px;">
+  <div style="font-size:0.92rem;line-height:1.75;opacity:0.92;">
+    <strong>微信公众号「梁林源」· 睡眠研究速递</strong><br>每天一条睡好觉的研究依据，已验证的睡眠科普。<br><span style="opacity:0.75;">微信扫码，即刻关注。</span>
+  </div>
+</div>
+<!-- GZH-PROMO-END -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo-main">眠境·养生</div><p>以自然之道，唤醒内在的宁静与平衡。</p><div style="margin-top:1.5rem;font-size:0.78rem;color:rgba(249,245,239,0.35);">本站内容仅供参考，不构成医疗建议。</div></div>
+      <div class="footer-links"><h4>内容板块</h4><a href="science.html">睡眠科普</a><a href="music.html">助眠音馆</a><a href="food.html">养生食养</a><a href="shop.html">好物商城</a></div>
+      <div class="footer-links"><h4>AI 服务</h4><a href="ai-assistant.html">AI科普助手</a><a href="index.html#qwen-promo">千问APP推广</a></div>
+      <div class="footer-links"><h4>了解更多</h4><a href="about.html">关于我们</a><a href="disclaimer.html">免责声明</a><a href="privacy.html">隐私政策</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 眠境·养生. 保留所有权利。</span><span>ICP备案号: 粤ICP备XXXXXXXX号</span></div>
+  </div>
+</footer>
+
+<div class="ai-chat-fab">
+  <div class="ai-chat-window">
+    <div class="chat-header"><div class="chat-header-icon">🌿</div><div class="chat-header-text"><div class="name">眠师 · AI睡眠顾问</div><div class="status">由通义千问驱动</div></div></div>
+    <div class="chat-messages"></div>
+    <div style="padding:0.5rem;background:#F8F7F5;font-size:0.68rem;color:#AAA;text-align:center;">仅供参考，不构成医学建议</div>
+    <div class="chat-input-area"><input type="text" placeholder="问我睡眠相关问题…"/><button class="chat-send-btn"><svg viewBox="0 0 16 16"><path d="M2 8L14 2l-2 12-4-4-6 2z"/></svg></button></div>
+  </div>
+  <button class="ai-chat-btn"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg></button>
+</div>
+
+<script src="../shared/js/auth.js"></script>
+<script src="../shared/js/auth-ui.js"></script>
+<script src="../shared/js/main.js"></script>
+<script>
+function filterShop(btn, cat) {
+  document.querySelectorAll('.filter-item').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.shopCat === cat) ? 'block' : 'none';
+  });
+}
+</script>
+<script src="../shared/js/affiliate.js"></script>
+</body>
+</html>
