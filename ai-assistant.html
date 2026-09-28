@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI科普助手眠师 — 通义千问驱动的睡眠养生顾问，全天候解答睡眠问题，提供养生建议。">
+  <title>AI科普助手 — 眠境·养生</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/css/design-system.css">
+  <style>
+    .ai-page-hero {
+      padding: calc(var(--nav-h) + var(--space-xl)) 0 var(--space-xl);
+      background: linear-gradient(135deg, #1A2520, #2C3B35, #1B2E24);
+      color: var(--clr-cream);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .ai-page-hero::before {
+      content: '🤖';
+      position: absolute;
+      font-size: 25rem;
+      opacity: 0.03;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    /* 全页聊天区 */
+    .ai-chat-full {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .full-chat-window {
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .full-chat-header {
+      background: linear-gradient(135deg, var(--clr-night), var(--clr-moss));
+      color: white;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .full-chat-avatar {
+      width: 52px; height: 52px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .full-chat-messages {
+      height: 480px;
+      overflow-y: auto;
+      padding: 1.5rem;
+      background: #F5F3F0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .full-chat-input-area {
+      padding: 1rem 1.25rem;
+      background: white;
+      border-top: 1px solid #EEE;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-end;
+    }
+    .full-chat-input-area textarea {
+      flex: 1;
+      border: 1.5px solid #E8E4E0;
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      outline: none;
+      resize: none;
+      min-height: 44px;
+      max-height: 120px;
+      transition: var(--transition);
+      font-family: var(--font-body);
+    }
+    .full-chat-input-area textarea:focus { border-color: var(--clr-sage); }
+
+    .full-send-btn {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--clr-sage);
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .full-send-btn:hover { background: var(--clr-moss); }
+    .full-send-btn svg { width: 18px; height: 18px; fill: white; }
+
+    .full-chat-bottom-note {
+      padding: 0.6rem 1.25rem;
+      background: #FAF8F5;
+      border-top: 1px solid #F0EDED;
+      font-size: 0.7rem;
+      color: #AAA;
+      text-align: center;
+    }
+
+    /* 快捷问题 */
+    .quick-questions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background: white;
+      border-top: 1px solid #EEE;
+    }
+    .quick-q {
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--radius-pill);
+      background: var(--clr-sand);
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      font-family: var(--font-body);
+    }
+    .quick-q:hover { background: var(--clr-sage); color: white; }
+
+    /* API配置区 */
+    .api-config {
+      background: var(--clr-bg-card);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md);
+      box-shadow: var(--shadow-sm);
+      margin-top: var(--space-md);
+    }
+    .api-config summary {
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--clr-text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .api-config input {
+      width: 100%;
+      border: 1.5px solid var(--clr-sand);
+      border-radius: var(--radius-md);
+      padding: 0.6rem 0.9rem;
+      font-size: 0.85rem;
+      margin-top: 0.75rem;
+      outline: none;
+      font-family: monospace;
+    }
+
+    /* FAQ */
+    .faq-item {
+      background: var(--clr-bg-card);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 0.75rem;
+    }
+    .faq-q {
+      width: 100%;
+      text-align: left;
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--transition);
+    }
+    .faq-q:hover { background: var(--clr-sand); }
+    .faq-q .arrow { transition: var(--transition); font-size: 0.8rem; color: var(--clr-text-muted); }
+    .faq-q.open .arrow { transform: rotate(180deg); }
+    .faq-a {
+      display: none;
+      padding: 0 1.25rem 1rem;
+      font-size: 0.85rem;
+      color: var(--clr-text-secondary);
+      line-height: 1.8;
+    }
+    .faq-a.show { display: block; }
+
+    /* 千问推广 */
+    .qwen-feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+    }
+    .qwen-feature-card {
+      background: var(--clr-bg-card);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md);
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .qwen-feature-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+    .qwen-feature-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+    @media (max-width: 768px) { .qwen-feature-grid { grid-template-columns: 1fr; } }
+  </style>
+  <!-- 统计分析 -->
+  <script>window.BAIDU_TONGJI_ID='${BAIDU_CODE}';</script>
+  <script>window.GA4_MEASUREMENT_ID='${GA4_ID}';</script>
+  <script src="../shared/js/analytics.js"></script>
+  <!-- OG / Twitter (added by content-optimization) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SleepWell Studio">
+  <meta property="og:title" content="AI科普助手 — 眠境·养生">
+  <meta property="og:description" content="Evidence-based sleep science, sound library, wellness diet and curated shop by SleepWell Studio.">
+  <meta property="og:image" content="images/img-circadian.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI科普助手 — 眠境·养生">
+  <meta name="twitter:description" content="Evidence-based sleep science, sound library, wellness diet and curated shop by SleepWell Studio.">
+  </head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="logo-main">眠境·养生</span><span class="logo-sub">Sleep & Wellness</span></a>
+    <div class="nav-links">
+      <a href="index.html">首页</a><a href="sleep-calculator.html">睡眠计算器</a><a href="science.html">睡眠科普</a><a href="music.html">助眠音馆</a>
+      <a href="food.html">养生食养</a><a href="shop.html">好物商城</a>
+      <a href="ai-assistant.html" class="active nav-ai">🤖 AI科普助手</a><a href="about.html">关于我们</a>
+    </div>
+    <div class="nav-actions">
+      <a href="https://lianglinyuan666-ai.github.io/sleep-wellness-global/" class="nav-lang-switch">🌐 English</a>
+      <div class="nav-burger" id="navBurger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="sleep-calculator.html">⏰ 睡眠计算器</a>
+  <a href="index.html">🏠 首页</a><a href="science.html">🔬 睡眠科普</a><a href="music.html">🎵 助眠音馆</a>
+  <a href="food.html">🌿 养生食养</a><a href="shop.html">🛍 好物商城</a><a href="ai-assistant.html">🤖 AI科普助手</a><a href="about.html">💬 关于我们</a>
+</div>
+
+<div class="ai-page-hero">
+  <div class="container" style="position:relative;z-index:1;">
+    <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(249,245,239,0.5);margin-bottom:0.75rem;" class="animate-fade-up">通义千问驱动</div>
+    <h1 class="heading-display animate-fade-up" style="color:var(--clr-cream);">眠师</h1>
+    <h2 style="font-family:var(--font-display);font-size:clamp(1.2rem,2.5vw,1.8rem);font-weight:300;color:rgba(249,245,239,0.7);margin:0.5rem 0 1.5rem;" class="animate-fade-up">你的专属睡眠养生顾问</h2>
+    <div class="disclaimer-banner" style="max-width:580px;margin:0 auto;background:rgba(249,245,239,0.08);border-color:var(--clr-sage);color:rgba(249,245,239,0.65);" class="animate-fade-up">
+      ⚠️ 眠师提供的所有建议仅供参考，不构成医学诊断或治疗意见。如有健康问题，请咨询持证医疗专业人员。
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="ai-chat-full">
+      <!-- 主聊天窗口 -->
+      <div class="full-chat-window reveal">
+        <div class="full-chat-header">
+          <div class="full-chat-avatar">🌿</div>
+          <div>
+            <div style="font-weight:700;font-size:1rem;">眠师 Mianshi</div>
+            <div style="font-size:0.78rem;opacity:0.7;display:flex;align-items:center;gap:0.4rem;">
+              <span style="width:6px;height:6px;border-radius:50%;background:#4CAF50;display:inline-block;animation:pulse-dot 2s infinite;"></span>
+              在线 · 通义千问驱动 · 合规问答
+            </div>
+          </div>
+        </div>
+
+        <!-- 快捷问题 -->
+        <div class="quick-questions">
+          <button class="quick-q" onclick="sendQuickQ(this)">😴 我最近总是凌晨3点醒来</button>
+          <button class="quick-q" onclick="sendQuickQ(this)">🌿 有什么助眠的食物推荐吗？</button>
+          <button class="quick-q" onclick="sendQuickQ(this)">🧘 怎么做睡前冥想？</button>
+          <button class="quick-q" onclick="sendQuickQ(this)">⏰ 几点睡觉最健康？</button>
+        </div>
+
+        <!-- 聊天消息区 -->
+        <div class="full-chat-messages" id="fullChatMessages"></div>
+
+        <!-- 输入区 -->
+        <div class="full-chat-input-area">
+          <textarea id="fullChatInput" placeholder="向眠师提问，比如：我睡眠浅怎么改善？" rows="1" onkeydown="handleFullChatKeydown(event)"></textarea>
+          <button class="full-send-btn" onclick="sendFullChat()">
+            <svg viewBox="0 0 16 16"><path d="M2 8L14 2l-2 12-4-4-6 2z"/></svg>
+          </button>
+        </div>
+        <div class="full-chat-bottom-note">
+          眠师由通义千问AI驱动，提供的所有内容仅供参考，不构成医学建议。严禁包含医疗宣传词汇。
+        </div>
+      </div>
+
+      <!-- API 配置 -->
+      <details class="api-config reveal">
+        <summary>⚙️ 接入通义千问API（管理员配置）</summary>
+        <p style="font-size:0.78rem;color:var(--clr-text-muted);margin-top:0.75rem;line-height:1.7;">
+          在下方填入阿里云DashScope API Key，即可开启真实AI对话。未配置时将使用演示回复。
+          获取API Key：<a href="https://dashscope.console.aliyun.com/" target="_blank" rel="noopener" style="color:var(--clr-sage-deep);">DashScope控制台</a>
+        </p>
+        <input type="password" id="apiKeyInput" placeholder="sk-xxxxxxxxxx（您的DashScope API Key）" onchange="saveApiKey(this.value)">
+        <p style="font-size:0.72rem;color:var(--clr-text-muted);margin-top:0.5rem;">API Key 仅存储在本地浏览器，不上传服务器。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 千问APP推广专区 -->
+<section class="section-sm" style="background:var(--clr-bg-section);">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:var(--space-lg);">
+      <div class="label-tag reveal">千问APP推广专区</div>
+      <h2 class="heading-h2 reveal" style="margin-top:0.75rem;">下载通义千问APP</h2>
+      <p style="font-size:0.9rem;color:var(--clr-text-secondary);max-width:480px;margin:0.75rem auto;line-height:1.8;" class="reveal">解锁更完整的AI睡眠助手体验，多模态理解、个性化记忆、更快响应。</p>
+    </div>
+
+    <div class="qwen-feature-grid">
+      <div class="qwen-feature-card reveal">
+        <div class="qwen-feature-icon">🧠</div>
+        <h3 class="heading-h3" style="margin-bottom:0.5rem;">更强的理解力</h3>
+        <p style="font-size:0.82rem;color:var(--clr-text-secondary);line-height:1.7;">通义千问最新大模型，理解复杂睡眠问题，提供更精准的养生建议。</p>
+      </div>
+      <div class="qwen-feature-card reveal">
+        <div class="qwen-feature-icon">💾</div>
+        <h3 class="heading-h3" style="margin-bottom:0.5rem;">个性化记忆</h3>
+        <p style="font-size:0.82rem;color:var(--clr-text-secondary);line-height:1.7;">APP内对话记忆你的习惯与偏好，每次问答更贴近你的真实需求。</p>
+      </div>
+      <div class="qwen-feature-card reveal">
+        <div class="qwen-feature-icon">⚡</div>
+        <h3 class="heading-h3" style="margin-bottom:0.5rem;">极速响应</h3>
+        <p style="font-size:0.82rem;color:var(--clr-text-secondary);line-height:1.7;">APP端优化的响应速度，深夜睡前问答零延迟，不影响入眠节奏。</p>
+      </div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,var(--clr-night),var(--clr-moss));border-radius:var(--radius-lg);padding:var(--space-lg);margin-top:var(--space-lg);display:grid;grid-template-columns:1fr auto;gap:var(--space-lg);align-items:center;flex-wrap:wrap;" class="reveal">
+      <div>
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(249,245,239,0.4);margin-bottom:0.5rem;">专属口令 · 限时活动</div>
+        <h3 style="color:var(--clr-cream);font-size:1.4rem;margin-bottom:0.75rem;">使用专属口令注册，解锁专属权益</h3>
+        <p style="font-size:0.85rem;color:rgba(249,245,239,0.65);line-height:1.7;max-width:400px;">下载通义千问APP → 注册新账号 → 输入口令 → 获取专属权益。每位通过本页注册的用户，站主可获得相应佣金奖励。</p>
+        <p style="font-size:0.72rem;color:rgba(249,245,239,0.35);margin-top:0.75rem;">* 佣金来源为通义千问官方推广计划，具体金额以官方活动页面为准。</p>
+      </div>
+      <div style="background:rgba(249,245,239,0.08);border:1px solid rgba(249,245,239,0.15);border-radius:var(--radius-md);padding:1.5rem 2rem;text-align:center;min-width:200px;">
+        <div style="font-size:0.68rem;letter-spacing:0.1em;color:rgba(249,245,239,0.4);">注册邀请口令</div>
+        <div style="font-family:monospace;font-size:1.6rem;font-weight:700;letter-spacing:0.08em;color:var(--clr-gold);margin:0.5rem 0;">MIAN2026</div>
+        <button class="btn btn-gold" style="padding:0.5rem 1.25rem;font-size:0.82rem;margin-bottom:0.75rem;" onclick="copyReferralCode(this)">📋 复制口令</button>
+        <div>
+          <a href="https://tongyi.aliyun.com/" target="_blank" rel="noopener" id="qwenDownloadLink" class="btn" style="background:rgba(255,255,255,0.12);color:var(--clr-cream);padding:0.5rem 1.25rem;font-size:0.82rem;text-decoration:none;border-radius:var(--radius-pill);display:inline-block;">
+            📱 下载通义千问APP
+          </a>
+        </div>
+        <div style="margin-top:0.75rem;font-size:0.68rem;color:rgba(249,245,239,0.35);line-height:1.5;">
+          通过本页下载注册 → 输入口令 →<br>站主获得佣金奖励 ✨
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="container" style="max-width:760px;">
+    <div style="text-align:center;margin-bottom:var(--space-lg);">
+      <div class="label-tag reveal">常见问题</div>
+      <h2 class="heading-h2 reveal" style="margin-top:0.75rem;">关于眠师 FAQ</h2>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">眠师能诊断我的睡眠障碍吗？<span class="arrow">▼</span></button>
+      <div class="faq-a">不能。眠师是健康生活顾问，只能提供睡眠改善建议和养生知识科普。任何睡眠问题的诊断和医学处理，必须由持证医疗专业人员进行。如您怀疑有睡眠呼吸暂停、发作性睡病等睡眠障碍，请及时就医。</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">眠师会推荐药物或保健品吗？<span class="arrow">▼</span></button>
+      <div class="faq-a">不会。眠师严格遵守合规准则，不推荐任何药物、处方品或以医疗功效为卖点的保健品。眠师只会分享有循证基础的生活方式调节建议，如睡前仪式、饮食习惯、环境优化等。</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">我的对话内容安全吗？<span class="arrow">▼</span></button>
+      <div class="faq-a">是的。您的对话通过HTTPS加密传输至通义千问API，本站不存储任何对话内容。API Key存储在您本地浏览器中，不上传至本站服务器。详见隐私政策。</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">如何开启真实AI对话？<span class="arrow">▼</span></button>
+      <div class="faq-a">在上方AI对话区展开"API配置"，填入您的阿里云DashScope API Key即可。如没有API Key，可前往 dashscope.console.aliyun.com 免费注册获取（有免费额度）。</div>
+    </div>
+  </div>
+</section>
+
+<!-- GZH-PROMO-START -->
+<div style="max-width:1120px;margin:0 auto;padding:16px 20px 6px;display:flex;align-items:center;gap:14px;">
+  <img src="images/gzh_qr.jpg" alt="WeChat QR" width="84" height="84" loading="lazy" style="border-radius:8px;flex:0 0 auto;background:#fff;padding:3px;">
+  <div style="font-size:0.92rem;line-height:1.75;opacity:0.92;">
+    <strong>微信公众号「梁林源」· 睡眠研究速递</strong><br>每天一条睡好觉的研究依据，已验证的睡眠科普。<br><span style="opacity:0.75;">微信扫码，即刻关注。</span>
+  </div>
+</div>
+<!-- GZH-PROMO-END -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo-main">眠境·养生</div><p>以自然之道，唤醒内在的宁静与平衡。</p></div>
+      <div class="footer-links"><h4>内容板块</h4><a href="science.html">睡眠科普</a><a href="music.html">助眠音馆</a><a href="food.html">养生食养</a><a href="shop.html">好物商城</a></div>
+      <div class="footer-links"><h4>AI 服务</h4><a href="ai-assistant.html">AI科普助手</a><a href="ai-assistant.html#faq">常见问题</a></div>
+      <div class="footer-links"><h4>了解更多</h4><a href="about.html">关于我们</a><a href="disclaimer.html">免责声明</a><a href="privacy.html">隐私政策</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 眠境·养生. 保留所有权利。</span><span>ICP备案号: 粤ICP备XXXXXXXX号-1</span></div>
+  </div>
+</footer>
+
+<script src="../shared/js/main.js"></script>
+<script>
+// 完整页面聊天逻辑
+const QWEN_SYSTEM_PROMPT_FULL = `你是一位专业的睡眠与养生健康顾问助手，名叫"眠师"。
+严禁使用任何医疗宣传词汇（治疗/治愈/根治/医治/疗效/诊断等）。
+所有建议仅供参考，不构成医学意见。遇到需要医疗帮助的情况，必须建议咨询医生。
+专注于：睡眠改善、助眠方法、养生食养、生活习惯调节、放松技巧等。
+语气温和、积极、治愈。中文回复，不超过400字。`;
+
+// 密钥不再硬编码：仅由构建时注入的 window.QWEN_API_KEY 提供；未配置时降级为演示回复。
+const DEFAULT_API_KEY = window.QWEN_API_KEY;
+const FULL_CHAT_STORAGE_KEY = 'mianjing_full_chat_history';
+let fullChatHistory = loadFullChatHistory();
+let apiKey = localStorage.getItem('qwen_api_key') || DEFAULT_API_KEY;
+
+function saveFullChatHistory() {
+  try {
+    localStorage.setItem(FULL_CHAT_STORAGE_KEY, JSON.stringify(fullChatHistory.slice(-300)));
+  } catch(e) {}
+}
+
+function loadFullChatHistory() {
+  try {
+    const raw = localStorage.getItem(FULL_CHAT_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch(e) { return []; }
+}
+
+function clearFullChatHistory() {
+  localStorage.removeItem(FULL_CHAT_STORAGE_KEY);
+  fullChatHistory = [];
+}
+
+function saveApiKey(key) {
+  apiKey = key;
+  localStorage.setItem('qwen_api_key', key);
+}
+
+// 演示回复库
+const demoReplies = {
+  '凌晨3点醒来': '凌晨3点醒来是许多人共同的困扰，这通常与几个因素有关：\n\n🌡️ **体温节律**：凌晨3-4点是体温最低点，身体转换时可能被唤醒。\n\n🧠 **浅睡段过渡**：每个90分钟的睡眠周期结束时，有段短暂的轻度觉醒期，敏感者容易保持清醒。\n\n💡 **改善建议**：\n- 睡前2小时避免剧烈运动、大量饮水\n- 保持卧室温度在18-20°C\n- 建立规律的睡眠时间\n\n如果长期频繁出现，建议记录睡眠日志，与医生讨论。',
+  '助眠的食物': '以下是几类有助于营造入眠氛围的食物 🌿\n\n**含色氨酸的食物**\n色氨酸是合成血清素和褪黑素的前体，如小米、燕麦、香蕉、牛奶、坚果等。\n\n**传统食养推荐**\n- 🫖 酸枣仁茶：宁心安神，适合睡前饮用\n- 🍚 小米粥：温胃助眠\n- 🌸 百合粥：滋阴宁神\n\n**注意事项**\n- 睡前3小时避免高糖、高脂食物\n- 适量晚餐，不宜过饱\n\n以上建议仅供生活参考，不构成任何医学意见。',
+  '睡前冥想': '睡前冥想可以帮助大脑从"高速运转"切换到放松状态 🧘\n\n**5分钟身体扫描冥想**\n\n1. 仰卧，双手放于身体两侧\n2. 闭眼，深呼吸3次（吸4秒/屏2秒/呼6秒）\n3. 从脚趾开始，逐步感知并放松每个部位\n4. 依次经过小腿→大腿→腹部→胸口→肩膀→手臂→颈部→面部\n5. 感受每次呼气时身体更深沉地放松\n\n**小提示**\n可配合我们音馆中的"冥想引导音频"使用，效果更佳 🎵',
+  default: '你好，我是眠师 🌿 我在这里帮助你改善睡眠质量、了解养生知识。\n\n你可以问我：\n- 如何建立良好的睡眠习惯\n- 有哪些自然助眠的方法\n- 中式食养与睡眠的关系\n- 睡眠科学与昼夜节律\n\n请注意，我提供的所有建议仅供参考，不能替代专业医疗诊断。如有健康疑虑，请咨询医生。'
+};
+
+function getDemoReply(text) {
+  for (const key in demoReplies) {
+    if (key !== 'default' && text.includes(key)) return demoReplies[key];
+  }
+  return demoReplies.default;
+}
+
+async function callQwenFull(messages) {
+  if (!apiKey || apiKey.length < 10) {
+    // 演示模式
+    await new Promise(r => setTimeout(r, 1200));
+    const lastMsg = messages[messages.length - 1]?.content || '';
+    return getDemoReply(lastMsg);
+  }
+  try {
+    const resp = await fetch('https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model: 'qwen-turbo',
+        input: { messages: [{ role: 'system', content: QWEN_SYSTEM_PROMPT_FULL }, ...messages] },
+        parameters: { max_tokens: 600, temperature: 0.7 }
+      })
+    });
+    const data = await resp.json();
+    return data.output?.text || '抱歉，暂时无法回答，请稍后再试。';
+  } catch { return '网络连接问题，请检查后重试。'; }
+}
+
+function addFullBubble(text, role) {
+  const container = document.getElementById('fullChatMessages');
+  const div = document.createElement('div');
+  div.className = `chat-bubble ${role}`;
+  // 支持简单 Markdown (加粗、换行)
+  div.innerHTML = text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br>');
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  return div;
+}
+
+async function sendFullChat() {
+  const input = document.getElementById('fullChatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  addFullBubble(text, 'user');
+  fullChatHistory.push({ role: 'user', content: text, time: Date.now() });
+  saveFullChatHistory();
+
+  const typing = addFullBubble('眠师正在思考中…', 'bot');
+  typing.style.opacity = '0.6';
+
+  const reply = await callQwenFull(fullChatHistory);
+  typing.remove();
+  addFullBubble(reply, 'bot');
+  fullChatHistory.push({ role: 'assistant', content: reply, time: Date.now() });
+  saveFullChatHistory();
+}
+
+function handleFullChatKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendFullChat(); }
+}
+
+function sendQuickQ(btn) {
+  document.getElementById('fullChatInput').value = btn.textContent;
+  sendFullChat();
+}
+
+// ===== 千问推广配置 =====
+const QWEN_REFERRAL_CONFIG = {
+  code: 'MIAN2026',                        // ← 替换为你的千问专属邀请码
+  downloadUrl: 'https://tongyi.aliyun.com/', // ← 替换为你的专属下载链接
+  commissionNote: '通过本页注册后，站主获得千问官方推广佣金'
+};
+
+function copyReferralCode(btn) {
+  navigator.clipboard.writeText(QWEN_REFERRAL_CONFIG.code).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ 已复制';
+    btn.style.background = 'var(--clr-sage)';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
+  }).catch(() => {
+    alert('复制失败，请手动复制口令：' + QWEN_REFERRAL_CONFIG.code);
+  });
+}
+
+// 页面加载时更新下载链接
+document.addEventListener('DOMContentLoaded', () => {
+  const dlLink = document.getElementById('qwenDownloadLink');
+  if (dlLink && QWEN_REFERRAL_CONFIG.downloadUrl) {
+    dlLink.href = QWEN_REFERRAL_CONFIG.downloadUrl;
+  }
+});
+
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const isOpen = btn.classList.contains('open');
+  document.querySelectorAll('.faq-q').forEach(b => { b.classList.remove('open'); b.nextElementSibling.classList.remove('show'); });
+  if (!isOpen) { btn.classList.add('open'); answer.classList.add('show'); }
+}
+
+// 初始化：欢迎消息 + 自动填入API Key + 恢复对话历史
+document.addEventListener('DOMContentLoaded', () => {
+  // 恢复历史对话
+  fullChatHistory = loadFullChatHistory();
+  if (fullChatHistory.length > 0) {
+    fullChatHistory.forEach(item => {
+      addFullBubble(item.content, item.role === 'assistant' ? 'bot' : 'user');
+    });
+  } else {
+    addFullBubble(demoReplies.default, 'bot');
+  }
+  // 自动保存默认API Key到本地存储并填入输入框
+  if (!localStorage.getItem('qwen_api_key')) {
+    localStorage.setItem('qwen_api_key', DEFAULT_API_KEY);
+    apiKey = DEFAULT_API_KEY;
+  }
+  const keyInput = document.getElementById('apiKeyInput');
+  if (keyInput && apiKey) {
+    keyInput.value = apiKey.length > 16 ? apiKey.slice(0, 8) + '***' + apiKey.slice(-4) : apiKey;
+  }
+});
+</script>
+</body>
+</html>
