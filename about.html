@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于我们 — 眠境·养生</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/css/design-system.css">
+  <style>
+    .about-hero { text-align:center; padding:var(--space-2xl) var(--space-md); background:linear-gradient(135deg, #F5F2EE 0%, #EDE8E1 50%, #E3DED6 100%); }
+    .about-hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,5vw,3.5rem); font-weight:700; color:var(--clr-sage-deep); margin-bottom:0.5rem; }
+    .about-hero p { color:var(--clr-text-secondary); max-width:600px; margin:0 auto; font-size:0.95rem; line-height:1.7; }
+    .about-section { padding:var(--space-2xl) var(--space-md); max-width:800px; margin:0 auto; }
+    .about-section h2 { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:700; color:var(--clr-sage-deep); margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:2px solid var(--clr-sand); }
+    .about-section p, .about-section li { color:var(--clr-text-secondary); font-size:0.9rem; line-height:1.9; }
+    .contact-card { background:var(--clr-bg-card); border-radius:var(--radius-lg); padding:var(--space-lg); box-shadow:var(--shadow-sm); margin-top:1rem; display:flex; flex-direction:column; gap:0.75rem; }
+    .contact-row { display:flex; align-items:center; gap:0.75rem; }
+    .contact-icon { font-size:1.4rem; width:2.5rem; height:2.5rem; display:flex; align-items:center; justify-content:center; background:var(--clr-bg-section); border-radius:var(--radius-md); flex-shrink:0; }
+    .contact-text { font-size:0.9rem; color:var(--clr-text-secondary); }
+    .contact-text strong { color:var(--clr-text-primary); display:block; margin-bottom:0.15rem; font-size:0.85rem; }
+    .contact-text a { color:var(--clr-sage-deep); text-decoration:none; font-weight:500; }
+    .contact-text a:hover { text-decoration:underline; }
+    .values-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem; margin-top:1rem; }
+    .value-card { background:var(--clr-bg-card); border-radius:var(--radius-md); padding:1.25rem; text-align:center; box-shadow:var(--shadow-sm); }
+    .value-card .v-icon { font-size:2rem; margin-bottom:0.5rem; }
+    .value-card h4 { font-weight:600; font-size:0.95rem; margin-bottom:0.35rem; }
+    .value-card p { font-size:0.78rem; color:var(--clr-text-muted); line-height:1.6; }
+  </style>
+  <script>window.BAIDU_TONGJI_ID='${BAIDU_CODE}';</script>
+  <script>window.GA4_MEASUREMENT_ID='${GA4_ID}';</script>
+  <script src="../shared/js/analytics.js"></script>
+  <!-- OG / Twitter (added by content-optimization) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SleepWell Studio">
+  <meta property="og:title" content="关于我们 — 眠境·养生">
+  <meta property="og:description" content="Evidence-based sleep science, sound library, wellness diet and curated shop by SleepWell Studio.">
+  <meta property="og:image" content="images/img-circadian.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="关于我们 — 眠境·养生">
+  <meta name="twitter:description" content="Evidence-based sleep science, sound library, wellness diet and curated shop by SleepWell Studio.">
+  </head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="logo-main">眠境·养生</span><span class="logo-sub">Sleep & Wellness</span></a>
+    <div class="nav-links">
+      <a href="index.html">首页</a><a href="sleep-calculator.html">睡眠计算器</a><a href="science.html">睡眠科普</a><a href="music.html">助眠音馆</a>
+      <a href="food.html">养生食养</a><a href="shop.html">好物商城</a>
+      <a href="ai-assistant.html" class="nav-ai">🤖 AI科普助手</a><a href="about.html" class="active">关于我们</a>
+    </div>
+    <div class="nav-actions"><div class="nav-burger" id="navBurger"><span></span><span></span><span></span></div></div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="sleep-calculator.html">⏰ 睡眠计算器</a>
+  <a href="index.html">🏠 首页</a><a href="science.html">🔬 睡眠科普</a><a href="music.html">🎵 助眠音馆</a>
+  <a href="food.html">🌿 养生食养</a><a href="shop.html">🛍 好物商城</a><a href="ai-assistant.html">🤖 AI科普助手</a><a href="about.html">💬 关于我们</a>
+</div>
+
+<!-- Hero -->
+<div class="about-hero">
+  <h1>关于眠境·养生</h1>
+  <p>以自然之道，唤醒内在的宁静与平衡。我们致力于用科学、温暖、治愈的方式，陪伴每一段睡眠旅程。</p>
+</div>
+
+<!-- 品牌故事 -->
+<div class="about-section">
+  <h2>品牌故事</h2>
+  <p>「眠境·养生」诞生于一个简单的信念：好的睡眠是健康的根基，而现代人正在批量失去它。</p>
+  <p>我们融合东方养生智慧与现代睡眠科学，从自然白噪音、冥想引导、养生食养到好物甄选，打造一个「全场景睡眠与身心健康平台」。不做医疗承诺，只做科学科普与温暖陪伴。</p>
+  <p>参考 thisworks、Manta Sleep、Bearaby、SmartSleep 等国际品牌的简约美学与用户体验，我们坚持「轻设计、重内容」——让每一个来到眠境的用户，都能感受到一种被温柔对待的安全感。</p>
+</div>
+
+<!-- 核心价值观 -->
+<div class="about-section">
+  <h2>我们的坚持</h2>
+  <div class="values-grid">
+    <div class="value-card">
+      <div class="v-icon">🧪</div>
+      <h4>科学为本</h4>
+      <p>所有内容基于循证研究，不夸大、不营销恐惧、不宣称疗效。</p>
+    </div>
+    <div class="value-card">
+      <div class="v-icon">🌿</div>
+      <h4>自然治愈</h4>
+      <p>相信身体的自我修复力，用自然的声音、食材与节奏辅助身心。</p>
+    </div>
+    <div class="value-card">
+      <div class="v-icon">🤖</div>
+      <h4>AI 赋能</h4>
+      <p>接入通义千问，提供 24×7 科普问答，让专业知识普惠每一位用户。</p>
+    </div>
+    <div class="value-card">
+      <div class="v-icon">🔒</div>
+      <h4>隐私优先</h4>
+      <p>最小化数据收集，透明化数据处理，严格遵守《个人信息保护法》。</p>
+    </div>
+  </div>
+</div>
+
+<!-- 联系方式 -->
+<div class="about-section">
+  <h2>联系我们</h2>
+  <div class="contact-card">
+    <div class="contact-row">
+      <div class="contact-icon">📧</div>
+      <div class="contact-text">
+        <strong>商务合作 / 内容反馈</strong>
+        <a href="mailto:598830387@qq.com">598830387@qq.com</a>
+      </div>
+    </div>
+    <div class="contact-row">
+      <div class="contact-icon">🌐</div>
+      <div class="contact-text">
+        <strong>国际业务</strong>
+        <a href="mailto:lianglinyuan666@gmail.com">lianglinyuan666@gmail.com</a>
+      </div>
+    </div>
+  </div>
+  <p style="margin-top:1.5rem;font-size:0.85rem;color:var(--clr-text-muted);text-align:center;">
+    我们通常在工作日 24 小时内回复邮件。如需即时帮助，可尝试页面右下角的 AI 科普助手。
+  </p>
+</div>
+
+<!-- GZH-PROMO-START -->
+<div style="max-width:1120px;margin:0 auto;padding:16px 20px 6px;display:flex;align-items:center;gap:14px;">
+  <img src="images/gzh_qr.jpg" alt="WeChat QR" width="84" height="84" loading="lazy" style="border-radius:8px;flex:0 0 auto;background:#fff;padding:3px;">
+  <div style="font-size:0.92rem;line-height:1.75;opacity:0.92;">
+    <strong>微信公众号「梁林源」· 睡眠研究速递</strong><br>每天一条睡好觉的研究依据，已验证的睡眠科普。<br><span style="opacity:0.75;">微信扫码，即刻关注。</span>
+  </div>
+</div>
+<!-- GZH-PROMO-END -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo-main">眠境·养生</div><p>以自然之道，唤醒内在的宁静与平衡。</p></div>
+      <div class="footer-links"><h4>内容板块</h4><a href="science.html">睡眠科普</a><a href="music.html">助眠音馆</a><a href="food.html">养生食养</a><a href="shop.html">好物商城</a></div>
+      <div class="footer-links"><h4>AI服务</h4><a href="ai-assistant.html">AI科普助手</a></div>
+      <div class="footer-links"><h4>法律信息</h4><a href="disclaimer.html">免责声明</a><a href="privacy.html">隐私政策</a><a href="about.html">关于我们</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 眠境·养生. 保留所有权利。</span><span>ICP备案号: 粤ICP备XXXXXXXX号</span></div>
+  </div>
+</footer>
+
+<div class="disclaimer-banner" style="display:flex;justify-content:center;gap:2rem;position:fixed;bottom:0;left:0;right:0;background:var(--clr-bg-card);padding:0.4rem 1rem;font-size:0.72rem;color:var(--clr-text-muted);z-index:1000;border-top:1px solid var(--clr-sand);">
+  <span>内容仅供科普参考，不构成医疗建议</span>
+  <a href="disclaimer.html" style="color:var(--clr-sage-deep);">免责声明</a>
+  <a href="privacy.html" style="color:var(--clr-sage-deep);">隐私政策</a>
+</div>
+
+<script src="../shared/js/main.js"></script>
+<script>
+  // Mobile menu toggle
+  document.getElementById('navBurger').addEventListener('click', function() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+    this.classList.toggle('open');
+  });
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.about-section').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
