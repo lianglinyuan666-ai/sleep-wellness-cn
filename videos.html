@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="眠境·养生助眠视频 — 睡眠科普、放松引导与中式养生视觉疗愈。">
+  <title>眠境·养生 — 助眠视频</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/css/design-system.css">
+  <style>
+    :root { --nav-h: 72px; }
+    body { margin:0; background: var(--clr-cream, #faf7f0); color: var(--clr-text, #2a2622); font-family:'Inter',system-ui,sans-serif; }
+    .topbar { position:sticky; top:0; z-index:50; height:var(--nav-h); display:flex; align-items:center; padding:0 var(--space-xl,1.5rem); background:rgba(250,247,240,0.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--clr-sand,#e7e0d4); }
+    .topbar a { color:var(--clr-sage-deep,#3f5e44); text-decoration:none; font-weight:600; font-size:.95rem; }
+    .wrap { max-width:1100px; margin:0 auto; padding:var(--space-xxl,3rem) var(--space-xl,1.5rem); }
+    .page-title { font-family:var(--font-display,'Cormorant Garamond',serif); font-size:clamp(2.2rem,5vw,3.4rem); font-weight:300; color:var(--clr-night,#1d1a16); margin:0 0 .4rem; }
+    .page-sub { color:var(--clr-text-muted,#8a8276); margin:0 0 2.5rem; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.8rem; }
+    .video-card { background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 10px 30px rgba(60,80,60,0.08); display:flex; flex-direction:column; }
+    .video-card video { width:100%; display:block; background:#000; aspect-ratio:16/9; object-fit:cover; }
+    .video-meta { padding:1.1rem 1.2rem 1.4rem; }
+    .video-meta h3 { font-size:1.05rem; margin:0 0 .4rem; color:var(--clr-night,#1d1a16); }
+    .video-meta p { font-size:.9rem; color:var(--clr-text-secondary,#6b6359); line-height:1.6; margin:0; }
+    .empty { color:var(--clr-text-muted,#8a8276); padding:3rem 0; text-align:center; }
+    footer { text-align:center; padding:2rem; color:var(--clr-text-muted,#8a8276); font-size:.8rem; }
+  </style>
+  <!-- OG / Twitter (added by content-optimization) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SleepWell Studio">
+  <meta property="og:title" content="眠境·养生 — 助眠视频">
+  <meta property="og:description" content="Evidence-based sleep science, sound library, wellness diet and curated shop by SleepWell Studio.">
+  <meta property="og:image" content="images/img-circadian.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="眠境·养生 — 助眠视频">
+  <meta name="twitter:description" content="Evidence-based sleep science, sound library, wellness diet and curated shop by SleepWell Studio.">
+  </head>
+<body>
+  <div class="topbar"><a href="index.html">&larr; 返回眠境·养生首页</a></div>
+  <main class="wrap">
+    <h1 class="page-title">助眠视频</h1>
+    <p class="page-sub">睡眠科普 · 放松引导 · 中式养生视觉疗愈</p>
+    <div class="grid" id="video-grid"><p class="empty">加载中…</p></div>
+  </main>
+  <footer>眠境·养生 — 自然入眠，从容生活</footer>
+  <script src="../shared/js/analytics.js"></script>
+  <script src="../shared/js/main.js"></script>
+  <script>
+  (function(){
+    function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+    function render(list){
+      var grid=document.getElementById('video-grid');
+      if(!list||!list.length){ grid.innerHTML='<p class="empty">暂无视频，敬请期待。</p>'; return; }
+      grid.innerHTML=list.map(function(v){
+        return '<article class="video-card">'
+          +'<video src="'+esc(v.src)+'"'+(v.poster?' poster="'+esc(v.poster)+'"':'')+' controls preload="metadata"></video>'
+          +'<div class="video-meta"><h3>'+esc(v.title)+'</h3>'+(v.desc?'<p>'+esc(v.desc)+'</p>':'')+'</div>'
+          +'</article>';
+      }).join('');
+    }
+    fetch('videos/manifest.json')
+      .then(function(r){ return r.json(); })
+      .then(function(d){ render(d.videos); })
+      .catch(function(e){ document.getElementById('video-grid').innerHTML='<p class="empty">视频列表加载失败，请稍后重试。</p>'; });
+  })();
+  </script>
+</body>
+</html>
