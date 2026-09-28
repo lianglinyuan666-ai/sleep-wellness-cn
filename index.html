@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="眠境·养生 — 专注睡眠改善与中式养生的科普平台。睡眠知识、助眠音乐、养生食养，开启自然健康的生活方式。">
+  <meta name="keywords" content="睡眠改善,助眠,养生,中式养生,睡眠科普,助眠音乐,食养">
+  <meta property="og:title" content="眠境·养生 — 自然入眠，从容生活">
+  <meta property="og:description" content="专注睡眠改善与中式养生的科普平台">
+  <meta property="og:type" content="website">
+  <title>眠境·养生 — 自然入眠，从容生活</title>
+
+  <!-- 字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- 设计系统 -->
+  <link rel="stylesheet" href="../shared/css/design-system.css">
+
+  <!-- 国内站特定样式 -->
+  <style>
+    /* ==== Hero ==== */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding-top: var(--nav-h);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--clr-cream) 0%, var(--clr-sand) 50%, rgba(155,175,155,0.15) 100%);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: var(--space-xxl) var(--space-xl) var(--space-xxl) max(var(--space-xl), calc((100vw - var(--max-w)) / 2 + var(--space-xl)));
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--clr-sage-deep);
+      margin-bottom: var(--space-md);
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1.5px;
+      background: var(--clr-sage);
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-md);
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--clr-sage-deep);
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--clr-text-secondary);
+      max-width: 420px;
+      line-height: 1.8;
+      margin-bottom: var(--space-lg);
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: var(--space-lg);
+      margin-top: var(--space-xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--clr-sand);
+    }
+    .stat-item .num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--clr-night);
+    }
+    .stat-item .label {
+      font-size: 0.78rem;
+      color: var(--clr-text-muted);
+    }
+
+    .hero-visual {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-circle {
+      width: clamp(300px, 40vw, 560px);
+      height: clamp(300px, 40vw, 560px);
+      border-radius: 50%;
+      background: linear-gradient(135deg, #C8D8C0 0%, #A0BA9A 40%, #88A882 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: float 8s ease-in-out infinite;
+      box-shadow: 0 40px 100px rgba(74,103,65,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-circle-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .hero-moon { font-size: clamp(4rem, 8vw, 8rem); line-height: 1; }
+
+    .hero-circle-text {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.8);
+      margin-top: 0.5rem;
+    }
+
+    /* 装饰元素 */
+    .hero-deco-1, .hero-deco-2 {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.4;
+    }
+    .hero-deco-1 {
+      width: 120px; height: 120px;
+      background: var(--clr-lavender);
+      top: 15%; right: 5%;
+      animation: float 6s ease-in-out infinite 1s;
+    }
+    .hero-deco-2 {
+      width: 80px; height: 80px;
+      background: var(--clr-blush);
+      bottom: 20%; right: 20%;
+      animation: float 7s ease-in-out infinite 2s;
+    }
+
+    /* ==== 特色功能卡片 ==== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+    }
+
+    .feature-card {
+      background: var(--clr-bg-card);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--clr-sage), var(--clr-lavender));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: var(--transition);
+    }
+    .feature-card:hover { box-shadow: var(--shadow-md); transform: translateY(-6px); }
+    .feature-card:hover::after { transform: scaleX(1); }
+
+    .feature-icon {
+      width: 56px; height: 56px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: var(--space-md);
+    }
+
+    /* ==== 内容预览区 ==== */
+    .content-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: var(--space-lg);
+      flex-wrap: wrap;
+    }
+    .content-tab {
+      padding: 0.5rem 1.25rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--clr-text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1.5px solid transparent;
+    }
+    .content-tab.active, .content-tab:hover {
+      background: var(--clr-night);
+      color: var(--clr-cream);
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+    }
+
+    /* ==== 音馆预览 ==== */
+    .audio-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-sm);
+    }
+
+    /* ==== 商城预览 ==== */
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+    }
+
+    .shop-card {
+      background: var(--clr-bg-card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .shop-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+
+    .shop-img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .shop-info { padding: 1rem; }
+    .shop-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem; }
+    .shop-desc { font-size: 0.78rem; color: var(--clr-text-muted); margin-bottom: 0.75rem; line-height: 1.5; }
+    .shop-price { font-family: var(--font-display); font-size: 1.2rem; color: var(--clr-night); font-weight: 600; }
+    .shop-action { width: 100%; text-align: center; padding: 0.6rem; background: var(--clr-night); color: white; font-size: 0.8rem; font-weight: 600; border-radius: 0 0 var(--radius-lg) var(--radius-lg); transition: var(--transition); }
+    .shop-action:hover { background: var(--clr-moss); }
+
+    /* ==== 千问推广专区 ==== */
+    .qwen-promo {
+      background: linear-gradient(135deg, var(--clr-night) 0%, var(--clr-moss) 100%);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      color: var(--clr-cream);
+      position: relative;
+      overflow: hidden;
+    }
+    .qwen-promo::before {
+      content: '✦';
+      position: absolute;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12rem;
+      opacity: 0.04;
+    }
+
+    .qwen-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--space-xl);
+      align-items: center;
+    }
+
+    .qwen-code-box {
+      background: rgba(249,245,239,0.1);
+      border: 1px solid rgba(249,245,239,0.2);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 2rem;
+      text-align: center;
+      backdrop-filter: blur(4px);
+    }
+    .qwen-code {
+      font-family: monospace;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--clr-gold);
+      display: block;
+      margin: 0.5rem 0;
+    }
+    .qwen-code-label { font-size: 0.72rem; opacity: 0.6; letter-spacing: 0.08em; }
+
+    /* ==== 支付方式 ==== */
+    .payment-badges {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .payment-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--clr-bg-card);
+      border: 1px solid var(--clr-sand);
+      border-radius: var(--radius-pill);
+      padding: 0.4rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    /* 响应式 */
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .blog-grid { grid-template-columns: 1fr 1fr; }
+      .shop-grid { grid-template-columns: 1fr 1fr; }
+      .audio-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; padding-bottom: var(--space-xl); }
+      .hero-visual { display: none; }
+      .hero-content { padding: calc(var(--nav-h) + var(--space-xl)) var(--space-md) var(--space-xl); }
+      .features-grid { grid-template-columns: 1fr; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .shop-grid { grid-template-columns: 1fr 1fr; }
+      .qwen-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .shop-grid { grid-template-columns: 1fr; }
+      .hero-stats { flex-direction: column; gap: var(--space-sm); }
+    }
+  </style>
+  <!-- 统计分析 -->
+  <script>window.BAIDU_TONGJI_ID='${BAIDU_CODE}';</script>
+  <script>window.GA4_MEASUREMENT_ID='${GA4_ID}';</script>
+  <script src="../shared/js/analytics.js"></script>
+  <!-- zc-jsonld -->
+  <script>
+  (function(){try{var d={"@context":"https://schema.org","@type":"WebSite","name":"眠境·养生","alternateName":"SleepWell Studio","url":location.origin+location.pathname,"inLanguage":"zh-CN","description":"眠境·养生：睡眠科普、助眠音馆、养生食养，自然入眠，从容生活。"};var s=document.createElement("script");s.type="application/ld+json";s.textContent=JSON.stringify(d);document.head.appendChild(s);}catch(e){}})();
+  </script>
+</head>
+<body>
+
+<!-- ===== 导航栏 ===== -->
+<nav class="site-nav" id="siteNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-main">眠境·养生</span>
+      <span class="logo-sub">Sleep & Wellness</span>
+    </a>
+
+    <div class="nav-links">
+      <a href="index.html" class="active">首页</a>
+      <a href="sleep-calculator.html">睡眠计算器</a><a href="science.html">睡眠科普</a>
+      <a href="music.html">助眠音馆</a>
+      <a href="videos.html">助眠视频</a>
+      <a href="food.html">养生食养</a>
+      <a href="shop.html">好物商城</a>
+      <a href="ai-assistant.html" class="nav-ai">🤖 AI科普助手</a>
+      <a href="about.html">关于我们</a>
+    </div>
+
+    <div class="nav-actions">
+      <a href="https://lianglinyuan666-ai.github.io/sleep-wellness-global/" class="nav-lang-switch">🌐 English</a>
+      <div class="nav-burger" id="navBurger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- 移动端菜单 -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="sleep-calculator.html">⏰ 睡眠计算器</a>
+  <a href="index.html">🏠 首页</a>
+  <a href="science.html">🔬 睡眠科普</a>
+  <a href="music.html">🎵 助眠音馆</a>
+  <a href="food.html">🌿 养生食养</a>
+  <a href="shop.html">🛍 好物商城</a>
+  <a href="ai-assistant.html">🤖 AI科普助手</a>
+  <a href="about.html">💬 关于我们</a>
+</div>
+
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <div class="hero-content animate-fade-up">
+    <div class="hero-eyebrow">自然睡眠 · 中式养生</div>
+    <h1>与自然同频，<br><em>从容入眠</em></h1>
+    <p class="hero-desc">
+      基于传统养生智慧与现代睡眠研究，为您提供个性化的睡眠改善建议、助眠音乐疗愈与养生食养方案。
+    </p>
+    <div class="hero-cta">
+      <a href="science.html" class="btn btn-primary">探索睡眠科普 →</a>
+      <a href="music.html" class="btn btn-outline">免费试听音馆</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="num">200+</div><div class="label">科普文章</div></div>
+      <div class="stat-item"><div class="num">50+</div><div class="label">助眠音频</div></div>
+      <div class="stat-item"><div class="num">100+</div><div class="label">养生食谱</div></div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-circle">
+      <div class="hero-circle-inner">
+        <div class="hero-moon">🌙</div>
+        <div class="hero-circle-text">眠 · 养 · 愈</div>
+      </div>
+    </div>
+    <div class="hero-deco-1"></div>
+    <div class="hero-deco-2"></div>
+  </div>
+</section>
+
+<!-- ===== 免责声明横幅 ===== -->
+<div style="background: var(--clr-bg-section); padding: 1rem 0;">
+  <div class="container">
+    <div class="disclaimer-banner">
+      ⚠️ <strong>重要说明：</strong>本站所有内容仅供健康生活方式参考，不构成任何医学诊断或治疗建议。如有健康问题，请咨询持证医疗专业人员。详见<a href="disclaimer.html" style="color:var(--clr-sage-deep);text-decoration:underline;">免责声明</a>与<a href="privacy.html" style="color:var(--clr-sage-deep);text-decoration:underline;">隐私政策</a>。
+    </div>
+  </div>
+</div>
+
+<!-- ===== 核心功能模块 ===== -->
+<section class="section" style="background: var(--clr-bg-section);">
+  <div class="container">
+    <div style="text-align:center; margin-bottom: var(--space-xl);">
+      <div class="label-tag reveal">我们能为您提供</div>
+      <h2 class="heading-h2 reveal" style="margin-top:0.75rem;">全方位睡眠养生体验</h2>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(155,175,155,0.15);">🔬</div>
+        <h3 class="heading-h3" style="margin-bottom:0.75rem;">睡眠科普</h3>
+        <p style="font-size:0.9rem;color:var(--clr-text-secondary);line-height:1.8;">深度解析睡眠机制、睡眠周期、昼夜节律，教您认识自己的睡眠模式，建立科学的睡前习惯。</p>
+        <a href="science.html" style="display:inline-block;margin-top:1rem;font-size:0.85rem;font-weight:600;color:var(--clr-sage-deep);">阅读文章 →</a>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(197,184,212,0.15);">🎵</div>
+        <h3 class="heading-h3" style="margin-bottom:0.75rem;">助眠音馆</h3>
+        <p style="font-size:0.9rem;color:var(--clr-text-secondary);line-height:1.8;">精选双耳节拍、白噪音、自然声音与冥想引导音频，支持在线试听及数字版下载，伴您安然入眠。</p>
+        <a href="music.html" style="display:inline-block;margin-top:1rem;font-size:0.85rem;font-weight:600;color:var(--clr-sage-deep);">探索音馆 →</a>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(232,201,190,0.15);">🌿</div>
+        <h3 class="heading-h3" style="margin-bottom:0.75rem;">养生食养</h3>
+        <p style="font-size:0.9rem;color:var(--clr-text-secondary);line-height:1.8;">基于中式传统食养智慧，精选有助于调节作息、宁心安神的食材与配方，让饮食成为天然助眠的力量。</p>
+        <a href="food.html" style="display:inline-block;margin-top:1rem;font-size:0.85rem;font-weight:600;color:var(--clr-sage-deep);">查看食谱 →</a>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(201,169,110,0.15);">🛍</div>
+        <h3 class="heading-h3" style="margin-bottom:0.75rem;">好物商城</h3>
+        <p style="font-size:0.9rem;color:var(--clr-text-secondary);line-height:1.8;">精选助眠好物，从高质量寝具到天然香薰，每件产品均经严格筛选，直达阿里巴巴正品购买。</p>
+        <a href="shop.html" style="display:inline-block;margin-top:1rem;font-size:0.85rem;font-weight:600;color:var(--clr-sage-deep);">浏览商城 →</a>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(155,175,155,0.15);">🤖</div>
+        <h3 class="heading-h3" style="margin-bottom:0.75rem;">AI科普助手</h3>
+        <p style="font-size:0.9rem;color:var(--clr-text-secondary);line-height:1.8;">由通义千问驱动的专属睡眠顾问"眠师"，随时解答您关于睡眠与养生的困惑，提供个性化建议。</p>
+        <a href="ai-assistant.html" style="display:inline-block;margin-top:1rem;font-size:0.85rem;font-weight:600;color:var(--clr-sage-deep);">立即提问 →</a>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(197,184,212,0.15);">📱</div>
+        <h3 class="heading-h3" style="margin-bottom:0.75rem;">千问APP推广</h3>
+        <p style="font-size:0.9rem;color:var(--clr-text-secondary);line-height:1.8;">下载通义千问APP，获取更强大的AI睡眠助手体验，使用专属口令注册，更多专属权益等您解锁。</p>
+        <a href="#qwen-promo" style="display:inline-block;margin-top:1rem;font-size:0.85rem;font-weight:600;color:var(--clr-sage-deep);">获取口令 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 最新科普文章 ===== -->
+<section class="section">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:var(--space-lg);flex-wrap:wrap;gap:1rem;">
+      <div>
+        <div class="label-tag reveal">科普精选</div>
+        <h2 class="heading-h2 reveal" style="margin-top:0.75rem;">最新睡眠知识</h2>
+      </div>
+      <a href="science.html" class="btn btn-outline reveal">查看全部文章</a>
+    </div>
+
+    <div class="blog-grid">
+      <!-- 文章卡片 1 -->
+      <article class="card reveal">
+        <div class="card-img img-placeholder nature-bg-1" style="display:flex;align-items:center;justify-content:center;font-size:3rem;min-height:200px;">🌙</div>
+        <div class="card-body">
+          <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+            <span class="tag tag-sage">睡眠科学</span>
+            <span class="tag" style="font-size:0.68rem;">5 分钟阅读</span>
+          </div>
+          <h3 class="heading-h3" style="margin-bottom:0.5rem;">为什么我们需要深度睡眠？</h3>
+          <p style="font-size:0.85rem;color:var(--clr-text-secondary);line-height:1.7;margin-bottom:1rem;">深度睡眠（N3阶段）是身体修复的黄金时期，大脑清除代谢废物、免疫系统强化都在这一阶段完成…</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:0.75rem;color:var(--clr-text-muted);">2026·05·28</span>
+            <a href="article.html?id=ps-glymphatic" style="font-size:0.82rem;font-weight:600;color:var(--clr-sage-deep);">阅读全文 →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 文章卡片 2 -->
+      <article class="card reveal">
+        <div class="card-img img-placeholder nature-bg-2" style="display:flex;align-items:center;justify-content:center;font-size:3rem;min-height:200px;">🫖</div>
+        <div class="card-body">
+          <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+            <span class="tag tag-lavender">中式养生</span>
+            <span class="tag" style="font-size:0.68rem;">8 分钟阅读</span>
+          </div>
+          <h3 class="heading-h3" style="margin-bottom:0.5rem;">睡前一杯：五款宁神安眠茶饮</h3>
+          <p style="font-size:0.85rem;color:var(--clr-text-secondary);line-height:1.7;margin-bottom:1rem;">龙眼莲子茶、酸枣仁蜂蜜饮……这些来自中式传统的温热饮品，可帮助放松身心、营造入眠氛围…</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:0.75rem;color:var(--clr-text-muted);">2026·05·25</span>
+            <a href="article.html?id=tcm-sleep" style="font-size:0.82rem;font-weight:600;color:var(--clr-sage-deep);">阅读全文 →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 文章卡片 3 -->
+      <article class="card reveal">
+        <div class="card-img img-placeholder nature-bg-3" style="display:flex;align-items:center;justify-content:center;font-size:3rem;min-height:200px;">⏰</div>
+        <div class="card-body">
+          <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+            <span class="tag tag-blush">生活方式</span>
+            <span class="tag" style="font-size:0.68rem;">6 分钟阅读</span>
+          </div>
+          <h3 class="heading-h3" style="margin-bottom:0.5rem;">21天重塑睡眠节律挑战</h3>
+          <p style="font-size:0.85rem;color:var(--clr-text-secondary);line-height:1.7;margin-bottom:1rem;">昼夜节律紊乱是现代人睡眠问题的根源之一。通过21天系统性调整，逐步恢复自然的生物钟…</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:0.75rem;color:var(--clr-text-muted);">2026·05·20</span>
+            <a href="article.html?id=circadian" style="font-size:0.82rem;font-weight:600;color:var(--clr-sage-deep);">阅读全文 →</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 助眠音馆预览 ===== -->
+<section class="section" style="background: var(--clr-bg-section);">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:var(--space-lg);flex-wrap:wrap;gap:1rem;">
+      <div>
+        <div class="label-tag reveal">助眠音馆</div>
+        <h2 class="heading-h2 reveal" style="margin-top:0.75rem;">沉浸音声，安然入梦</h2>
+      </div>
+      <a href="music.html" class="btn btn-outline reveal">探索全部音频</a>
+    </div>
+
+    <div class="audio-grid">
+      <!-- 音频卡片 1 -->
+      <div class="audio-card reveal" data-audio="">
+        <div class="audio-art nature-bg-1">🌿</div>
+        <div class="audio-info">
+          <div class="title">雨林晨雾 · 自然声境</div>
+          <div class="meta">自然白噪音 · 45分钟</div>
+          <div class="progress-bar" style="margin-top:0.5rem;"><div class="progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="audio-controls">
+          <div class="play-btn">
+            <svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 音频卡片 2 -->
+      <div class="audio-card reveal" data-audio="">
+        <div class="audio-art nature-bg-2">🎐</div>
+        <div class="audio-info">
+          <div class="title">432Hz 深层放松 · 双耳节拍</div>
+          <div class="meta">冥想音频 · 60分钟</div>
+          <div class="progress-bar" style="margin-top:0.5rem;"><div class="progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="audio-controls">
+          <div class="play-btn">
+            <svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 音频卡片 3 -->
+      <div class="audio-card reveal" data-audio="">
+        <div class="audio-art nature-bg-4">🌊</div>
+        <div class="audio-info">
+          <div class="title">海浪入眠 · 深海冥想</div>
+          <div class="meta">自然声音 · 90分钟</div>
+          <div class="progress-bar" style="margin-top:0.5rem;"><div class="progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="audio-controls">
+          <div class="play-btn">
+            <svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 音频卡片 4 - 付费下载 -->
+      <div class="audio-card reveal" style="border: 1.5px solid var(--clr-gold);" data-audio="">
+        <div class="audio-art" style="background:linear-gradient(135deg,#F0E0B0,#C9A96E);">🏆</div>
+        <div class="audio-info">
+          <div class="title">🔓 全场景助眠音频包 · 精选合集</div>
+          <div class="meta">12首精选 · 无损下载 · ¥38</div>
+          <div class="progress-bar" style="margin-top:0.5rem;"><div class="progress-fill" style="width:0%"></div></div>
+        </div>
+        <div class="audio-controls">
+          <a href="music.html#purchase" class="btn btn-gold" style="padding:0.5rem 0.85rem;font-size:0.78rem;">购买下载</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 好物商城预览 ===== -->
+<section class="section">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:var(--space-lg);flex-wrap:wrap;gap:1rem;">
+      <div>
+        <div class="label-tag reveal">好物商城</div>
+        <h2 class="heading-h2 reveal" style="margin-top:0.75rem;">精选助眠好物</h2>
+        <p style="font-size:0.85rem;color:var(--clr-text-muted);margin-top:0.5rem;">所有商品跳转阿里巴巴正品购买链接</p>
+      </div>
+      <a href="shop.html" class="btn btn-outline reveal">浏览全部商品</a>
+    </div>
+
+    <div class="shop-grid">
+      <div class="shop-card reveal">
+        <div class="shop-img nature-bg-1">🛏</div>
+        <div class="shop-info">
+          <div class="shop-name">天然乳胶枕</div>
+          <div class="shop-desc">泰国天然乳胶，支撑颈椎，透气排湿</div>
+          <div class="shop-price">¥268 起</div>
+        </div>
+        <a href="https://www.1688.com/chanpin/%E5%A4%A9%E7%84%B6%E4%B9%B3%E8%83%B6%E6%9E%95.html" target="_blank" rel="noopener" class="shop-action">阿里巴巴购买 →</a>
+      </div>
+      <div class="shop-card reveal">
+        <div class="shop-img nature-bg-2">🕯</div>
+        <div class="shop-info">
+          <div class="shop-name">薰衣草香薰蜡烛</div>
+          <div class="shop-desc">天然大豆蜡，薰衣草精油，舒缓香氛</div>
+          <div class="shop-price">¥58 起</div>
+        </div>
+        <a href="https://www.1688.com/chanpin/%E8%96%B0%E8%A1%A3%E8%8D%89%E9%A6%99%E8%96%B0%E8%9C%A1%E7%83%9B.html" target="_blank" rel="noopener" class="shop-action">阿里巴巴购买 →</a>
+      </div>
+      <div class="shop-card reveal">
+        <div class="shop-img nature-bg-3">🌹</div>
+        <div class="shop-info">
+          <div class="shop-name">遮光眼罩套装</div>
+          <div class="shop-desc">3D立体遮光，柔软桑蚕丝材质</div>
+          <div class="shop-price">¥39 起</div>
+        </div>
+        <a href="https://www.1688.com/chanpin/%E9%81%AE%E5%85%89%E7%9C%BC%E7%BD%A9.html" target="_blank" rel="noopener" class="shop-action">阿里巴巴购买 →</a>
+      </div>
+      <div class="shop-card reveal">
+        <div class="shop-img nature-bg-4">🌡</div>
+        <div class="shop-info">
+          <div class="shop-name">白噪音助眠仪</div>
+          <div class="shop-desc">30种自然声音，定时关机，USB充电</div>
+          <div class="shop-price">¥128 起</div>
+        </div>
+        <a href="https://www.1688.com/chanpin/%E7%99%BD%E5%99%AA%E9%9F%B3%E6%9C%BA.html" target="_blank" rel="noopener" class="shop-action">阿里巴巴购买 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 千问 APP 推广专区 ===== -->
+<section class="section-sm" id="qwen-promo">
+  <div class="container">
+    <div class="qwen-promo reveal">
+      <div class="qwen-grid">
+        <div>
+          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(249,245,239,0.5);margin-bottom:0.75rem;">通义千问 APP 推广专区</div>
+          <h2 style="font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:300;color:var(--clr-cream);margin-bottom:1rem;">升级你的 AI 睡眠助手体验</h2>
+          <p style="font-size:0.9rem;color:rgba(249,245,239,0.7);line-height:1.8;max-width:480px;margin-bottom:1.5rem;">
+            下载通义千问APP，解锁更强大的睡眠科普 AI 对话、个性化养生方案定制，以及海量健康知识库。输入专属口令，即可享受专属权益。
+          </p>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+            <a href="https://tongyi.aliyun.com/" target="_blank" rel="noopener" class="btn btn-gold">📱 立即下载 APP</a>
+            <a href="ai-assistant.html" class="btn" style="background:rgba(249,245,239,0.1);color:var(--clr-cream);border:1px solid rgba(249,245,239,0.2);">了解更多权益</a>
+          </div>
+          <p style="font-size:0.75rem;color:rgba(249,245,239,0.4);margin-top:1rem;">
+            * 通过本页专属口令注册，您可能获得相应佣金奖励。具体权益以通义千问官方活动页面为准。
+          </p>
+        </div>
+        <div class="qwen-code-box">
+          <div class="qwen-code-label">您的专属口令</div>
+          <code class="qwen-code">MIAN2026</code>
+          <div class="qwen-code-label">复制口令，下载APP时输入</div>
+          <button class="btn btn-gold" style="margin-top:1rem;padding:0.5rem 1.25rem;font-size:0.82rem;" onclick="navigator.clipboard.writeText('MIAN2026').then(()=>{this.textContent='✓ 已复制'})">复制口令</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 支付方式说明 ===== -->
+<section class="section-sm" style="background: var(--clr-bg-section);">
+  <div class="container" style="text-align:center;">
+    <div class="label-tag" style="display:inline-block;margin-bottom:1rem;">安全支付</div>
+    <h3 class="heading-h3" style="margin-bottom:1.5rem;">支持多种支付方式</h3>
+    <div class="payment-badges" style="justify-content:center;">
+      <div class="payment-badge">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#07C160"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+        微信支付
+      </div>
+      <div class="payment-badge">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#1677FF"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+        支付宝
+      </div>
+      <div class="payment-badge" style="opacity:0.5;font-size:0.75rem;">
+        🌐 海外版支持 PayPal
+      </div>
+    </div>
+    <p style="font-size:0.78rem;color:var(--clr-text-muted);margin-top:1rem;">虚拟音频产品购买后自动发货至邮箱 · 实体商品跳转阿里巴巴完成交易</p>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<!-- GZH-PROMO-START -->
+<div style="max-width:1120px;margin:0 auto;padding:16px 20px 6px;display:flex;align-items:center;gap:14px;">
+  <img src="images/gzh_qr.jpg" alt="WeChat QR" width="84" height="84" loading="lazy" style="border-radius:8px;flex:0 0 auto;background:#fff;padding:3px;">
+  <div style="font-size:0.92rem;line-height:1.75;opacity:0.92;">
+    <strong>微信公众号「梁林源」· 睡眠研究速递</strong><br>每天一条睡好觉的研究依据，已验证的睡眠科普。<br><span style="opacity:0.75;">微信扫码，即刻关注。</span>
+  </div>
+</div>
+<!-- GZH-PROMO-END -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-main">眠境·养生</div>
+        <p>专注睡眠改善与中式养生的科普平台。<br>以自然之道，唤醒内在的宁静与平衡。</p>
+        <div style="margin-top:1.5rem;font-size:0.78rem;color:rgba(249,245,239,0.35);line-height:1.8;">
+          本站内容仅供参考，不构成医疗建议。<br>
+          如有健康问题，请咨询专业医疗人员。
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>内容板块</h4>
+        <a href="science.html">睡眠科普</a>
+        <a href="music.html">助眠音馆</a>
+        <a href="food.html">养生食养</a>
+        <a href="shop.html">好物商城</a>
+      </div>
+      <div class="footer-links">
+        <h4>AI 服务</h4>
+        <a href="ai-assistant.html">AI科普助手</a>
+        <a href="#qwen-promo">千问APP推广</a>
+        <a href="ai-assistant.html#faq">常见问题</a>
+      </div>
+      <div class="footer-links">
+        <h4>了解更多</h4>
+        <a href="about.html">关于我们</a>
+        <a href="disclaimer.html">免责声明</a>
+        <a href="privacy.html">隐私政策</a>
+        <a href="https://lianglinyuan666-ai.github.io/sleep-wellness-global/">🌐 English Site</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 眠境·养生 SleepWell Studio. 保留所有权利。</span>
+      <span>ICP备案号: 粤ICP备XXXXXXXX号</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== AI 悬浮聊天 ===== -->
+<div class="ai-chat-fab">
+  <div class="ai-chat-window">
+    <div class="chat-header">
+      <div class="chat-header-icon">🌿</div>
+      <div class="chat-header-text">
+        <div class="name">眠师 · AI睡眠顾问</div>
+        <div class="status">由通义千问驱动 · 合规问答</div>
+      </div>
+    </div>
+    <div class="chat-messages"></div>
+    <div style="padding:0.5rem 0.75rem;background:#F8F7F5;font-size:0.7rem;color:#AAA;text-align:center;border-top:1px solid #F0EDED;">
+      仅供参考，不构成医学建议。如有健康问题请咨询医生。
+    </div>
+    <div class="chat-input-area">
+      <input type="text" placeholder="有关睡眠的问题，问我吧…" />
+      <button class="chat-send-btn">
+        <svg viewBox="0 0 16 16"><path d="M2 8L14 2l-2 12-4-4-6 2z"/></svg>
+      </button>
+    </div>
+  </div>
+  <button class="ai-chat-btn" title="AI睡眠顾问">
+    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+  </button>
+</div>
+
+<!-- 脚本 -->
+<script src="../shared/js/auth.js"></script>
+<script src="../shared/js/auth-ui.js"></script>
+<script src="../shared/js/main.js"></script>
+</body>
+</html>
